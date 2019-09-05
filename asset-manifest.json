@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/CardGames/static/css/main.2cce8147.chunk.css",
+    "main.js": "/CardGames/static/js/main.bcac55d5.chunk.js",
+    "main.js.map": "/CardGames/static/js/main.bcac55d5.chunk.js.map",
+    "runtime~main.js": "/CardGames/static/js/runtime~main.0fd9bd28.js",
+    "runtime~main.js.map": "/CardGames/static/js/runtime~main.0fd9bd28.js.map",
+    "static/js/2.09f7de61.chunk.js": "/CardGames/static/js/2.09f7de61.chunk.js",
+    "static/js/2.09f7de61.chunk.js.map": "/CardGames/static/js/2.09f7de61.chunk.js.map",
+    "index.html": "/CardGames/index.html",
+    "precache-manifest.e43c60552bdec6bdf4bab9580916a0de.js": "/CardGames/precache-manifest.e43c60552bdec6bdf4bab9580916a0de.js",
+    "service-worker.js": "/CardGames/service-worker.js",
+    "static/css/main.2cce8147.chunk.css.map": "/CardGames/static/css/main.2cce8147.chunk.css.map",
+    "static/media/logo.svg": "/CardGames/static/media/logo.5d5d9eef.svg"
+  }
+}
