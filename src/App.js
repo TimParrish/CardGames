@@ -15,7 +15,9 @@ function App() {
         <Route path="/card-games/solitaire" component={Solitaire} /> */}
         <Route component={Blackjack} />
       </Switch>
-      {/* <StyledFooter>Check out the source code on github!</StyledFooter> */}
+      <StyledFooter>
+        <p>Check out the source code on github!</p>
+      </StyledFooter>
     </BrowserRouter>
   );
 }
