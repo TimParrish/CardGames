@@ -12,6 +12,9 @@ const GameControlsDiv = styled.div`
   height: 150px;
   width: 450px;
   margin: auto;
+  p {
+    text-align: center;
+  }
 `;
 
 const DisplayCardsDiv = styled.div`
@@ -20,10 +23,15 @@ const DisplayCardsDiv = styled.div`
   margin: auto;
 `;
 
-const DisplayPlayerCards = styled.div`
+const DisplayCardsInHand = styled.div`
   width: 400px;
-  float: left;
-  background-color: green;
+  float: ${({ type }) => (type === "player" ? "left" : "right")};
+  background-color: ${({ type }) =>
+    type === "player" ? "darkgreen" : "darkblue"};
+  h2 {
+    text-align: center;
+    background-color: lightgrey;
+  }
   img {
     height: 30%;
     width: 30%;
@@ -31,17 +39,7 @@ const DisplayPlayerCards = styled.div`
   }
   padding: 10px;
 `;
-const DisplayDealerCards = styled.div`
-  width: 400px;
-  float: right;
-  background-color: teal;
-  img {
-    height: 30%;
-    width: 30%;
-    float: left;
-  }
-  padding: 10px;
-`;
+
 function Blackjack() {
   const [deckId, setDeckId] = useState("");
   const [shuffled, setShuffled] = useState("");
@@ -96,32 +94,46 @@ function Blackjack() {
   return (
     <>
       <DisplayCardsDiv>
-        <DisplayPlayerCards>
+        <DisplayCardsInHand type="player">
+          <h2>Player Cards</h2>
           <img
-            src={`https://deckofcardsapi.com/static/img/5D.png`}
+            src={`https://deckofcardsapi.com/static/img/KS.png`}
             // src={`${player_hand[0].imageURL}`}
             alt={"hello"}
             // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
           />
           <img
-            src={`https://deckofcardsapi.com/static/img/8C.png`}
+            src={`https://deckofcardsapi.com/static/img/QS.png`}
             // src={`${player_hand[0].imageURL}`}
             alt={"hello"}
             // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
           />
-        </DisplayPlayerCards>
-        <DisplayDealerCards>
+          <img
+            src={`https://deckofcardsapi.com/static/img/JS.png`}
+            // src={`${player_hand[0].imageURL}`}
+            alt={"hello"}
+            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
+          />
+        </DisplayCardsInHand>
+        <DisplayCardsInHand>
+          <h2>Dealer Cards</h2>
           <img
             src={`https://deckofcardsapi.com/static/img/AH.png`}
             // src={`${player_hand[0].imageURL}`}
             alt={"hello"}
             // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
           />
-        </DisplayDealerCards>
+          <img
+            src={`https://deckofcardsapi.com/static/img/AC.png`}
+            // src={`${player_hand[0].imageURL}`}
+            alt={"hello"}
+            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
+          />
+        </DisplayCardsInHand>
       </DisplayCardsDiv>
 
       <GameControlsDiv>
-        <ButtonGroup aria-label="Game Control Buttons" size="lg">
+        <ButtonGroup aria-label="Game Control Buttons" size="lg" center>
           <Button variant="secondary" onClick={startNewGame}>
             New Game
           </Button>
