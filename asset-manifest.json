@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/card-games/static/css/main.2cce8147.chunk.css",
-    "main.js": "/card-games/static/js/main.5dd2aada.chunk.js",
-    "main.js.map": "/card-games/static/js/main.5dd2aada.chunk.js.map",
+    "main.css": "/card-games/static/css/main.7c4bb8ce.chunk.css",
+    "main.js": "/card-games/static/js/main.4ae8864d.chunk.js",
+    "main.js.map": "/card-games/static/js/main.4ae8864d.chunk.js.map",
     "runtime~main.js": "/card-games/static/js/runtime~main.c253352b.js",
     "runtime~main.js.map": "/card-games/static/js/runtime~main.c253352b.js.map",
-    "static/js/2.09f7de61.chunk.js": "/card-games/static/js/2.09f7de61.chunk.js",
-    "static/js/2.09f7de61.chunk.js.map": "/card-games/static/js/2.09f7de61.chunk.js.map",
+    "static/css/2.d7a94725.chunk.css": "/card-games/static/css/2.d7a94725.chunk.css",
+    "static/js/2.ee05aa65.chunk.js": "/card-games/static/js/2.ee05aa65.chunk.js",
+    "static/js/2.ee05aa65.chunk.js.map": "/card-games/static/js/2.ee05aa65.chunk.js.map",
     "index.html": "/card-games/index.html",
-    "precache-manifest.6b7cd69112616ef62fadb58d0dc39cdd.js": "/card-games/precache-manifest.6b7cd69112616ef62fadb58d0dc39cdd.js",
+    "precache-manifest.57def1cdc4559aa1fdc69d5e0a276a3c.js": "/card-games/precache-manifest.57def1cdc4559aa1fdc69d5e0a276a3c.js",
     "service-worker.js": "/card-games/service-worker.js",
-    "static/css/main.2cce8147.chunk.css.map": "/card-games/static/css/main.2cce8147.chunk.css.map",
-    "static/media/logo.svg": "/card-games/static/media/logo.5d5d9eef.svg"
+    "static/css/2.d7a94725.chunk.css.map": "/card-games/static/css/2.d7a94725.chunk.css.map",
+    "static/css/main.7c4bb8ce.chunk.css.map": "/card-games/static/css/main.7c4bb8ce.chunk.css.map"
   }
 }
