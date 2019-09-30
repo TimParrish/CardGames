@@ -3,6 +3,8 @@ import { Blackjack, NavBar } from "./GameComponents";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { StyledFooter } from "styles";
 import "./styles/background.css";
+import "./styles/rootStyle.css";
+import styled from "styled-components";
 
 document.title = "React Card Games";
 
@@ -16,9 +18,9 @@ function App() {
         <Route path="/card-games/solitaire" component={Solitaire} /> */}
         <Route component={Blackjack} />
       </Switch>
-      <StyledFooter>
+      {/* <StyledFooter>
         <p>Check out the source code on github!</p>
-      </StyledFooter>
+      </StyledFooter> */}
     </BrowserRouter>
   );
 }

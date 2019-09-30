@@ -1,0 +1,11 @@
+#root {
+  background-color: black;
+  /* CSS for the wallpaper is from https://freefrontend.com/css-background-patterns/  */
+
+  height: 100%;
+  background: radial-gradient(
+    ellipse at bottom,
+    rgb(18, 88, 18) 0%,
+    #030617 100%
+  );
+}

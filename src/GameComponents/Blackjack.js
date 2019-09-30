@@ -4,30 +4,41 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 import styled from "styled-components";
+// import "../styles/rootStyle.css";
 
 let player_hand = [];
 // let dealer_hand = new Array();
 
 const GameControlsDiv = styled.div`
-  height: 150px;
+  height: 140px;
   width: 450px;
   margin: auto;
   p {
+    padding-top: 5px;
     text-align: center;
   }
+  background-color: white;
+  border-radius: 10px;
 `;
 
 const DisplayCardsDiv = styled.div`
   height: 350px;
   width: 850px;
   margin: auto;
+  ${"" /* background-color: red; */}
+`;
+
+const GroupOfButtons = styled(ButtonGroup)`
+  ${"" /* background-color: red; */}
+  padding-top: 8 px;
+  padding-left: 100px;
 `;
 
 const DisplayCardsInHand = styled.div`
   width: 400px;
   float: ${({ type }) => (type === "player" ? "left" : "right")};
   background-color: ${({ type }) =>
-    type === "player" ? "darkgreen" : "darkblue"};
+    type === "player" ? "darkgreen" : "#4F265B"};
   h2 {
     text-align: center;
     background-color: lightgrey;
@@ -51,7 +62,7 @@ function Blackjack() {
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
     axios
-      .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6`)
+      .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
       .then(result => {
         result.data.success && console.log("The result was a success!!");
 
@@ -133,7 +144,7 @@ function Blackjack() {
       </DisplayCardsDiv>
 
       <GameControlsDiv>
-        <ButtonGroup aria-label="Game Control Buttons" size="lg" center>
+        <GroupOfButtons aria-label="Game Control Buttons" size="lg">
           <Button variant="secondary" onClick={startNewGame}>
             New Game
           </Button>
@@ -143,7 +154,7 @@ function Blackjack() {
           <Button variant="secondary" onClick={computeHand}>
             Stay
           </Button>
-        </ButtonGroup>
+        </GroupOfButtons>
 
         <p>The deck ID is: {deckId}</p>
         <p>Total cards remaining in the deck: {cardsRemaining}</p>
