@@ -4,10 +4,9 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 import styled from "styled-components";
-// import "../styles/rootStyle.css";
 
 let player_hand = [];
-// let dealer_hand = new Array();
+let dealer_hand = [];
 
 const GameControlsDiv = styled.div`
   height: 140px;
@@ -69,6 +68,9 @@ function Blackjack() {
         setDeckId(result.data.deck_id);
         setShuffled(result.data.shuffled);
         setCardsRemaining(result.data.remaining);
+        //clear the cards in the players hands
+        player_hand = [];
+        dealer_hand = [];
       })
       .catch(error => console.log(error));
   }
@@ -83,6 +85,7 @@ function Blackjack() {
         setCardsRemaining(result.data.remaining);
         try {
           let card = result.data.cards[0];
+          //create a card object to push onto the player or dealer hand
           let drawn_card = {
             value: `${card.value}`,
             suit: `${card.suit}`,
@@ -90,13 +93,40 @@ function Blackjack() {
             cardCode: `${card.code}`
           };
           player_hand.push(drawn_card);
-          console.log(player_hand[0]);
+          console.log("The card from the players hand is:");
+          // console.log(player_hand[0]);
+          console.log(player_hand);
         } catch (err) {
           console.log("failed to parse JSON for desired values");
         }
       });
   }
+  function drawDealer() {
+    axios
+      .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+      .then(result => {
+        result.data.success && console.log(`We successfully drew cards!!`);
 
+        setShuffled(result.data.shuffled);
+        setCardsRemaining(result.data.remaining);
+        try {
+          let card = result.data.cards[0];
+          //create a card object to push onto the player or dealer hand
+          let drawn_card = {
+            value: `${card.value}`,
+            suit: `${card.suit}`,
+            imageURL: `${card.image}`,
+            cardCode: `${card.code}`
+          };
+          dealer_hand.push(drawn_card);
+          console.log("The card from the players hand is:");
+          // console.log(player_hand[0]);
+          console.log(dealer_hand);
+        } catch (err) {
+          console.log("failed to parse JSON for desired values");
+        }
+      });
+  }
   function computeHand() {
     console.log("TODO: add logic for the game here");
     //clear cards in hand
@@ -107,39 +137,61 @@ function Blackjack() {
       <DisplayCardsDiv>
         <DisplayCardsInHand type="player">
           <h2>Player Cards</h2>
-          <img
-            src={`https://deckofcardsapi.com/static/img/KS.png`}
-            // src={`${player_hand[0].imageURL}`}
-            alt={"hello"}
-            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
-          />
-          <img
-            src={`https://deckofcardsapi.com/static/img/QS.png`}
-            // src={`${player_hand[0].imageURL}`}
-            alt={"hello"}
-            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
-          />
-          <img
-            src={`https://deckofcardsapi.com/static/img/JS.png`}
-            // src={`${player_hand[0].imageURL}`}
-            alt={"hello"}
-            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
-          />
+          {player_hand[0] && (
+            <img
+              src={`${player_hand[0].imageURL}`}
+              alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
+            />
+          )}
+          {player_hand[1] && (
+            <img
+              src={`${player_hand[1].imageURL}`}
+              alt={`${player_hand[1].value} of ${player_hand[1].suit}`}
+            />
+          )}
+          {player_hand[2] && (
+            <img
+              src={`${player_hand[2].imageURL}`}
+              alt={`${player_hand[2].value} of ${player_hand[2].suit}`}
+            />
+          )}{" "}
+          {player_hand[3] && (
+            <img
+              src={`${player_hand[3].imageURL}`}
+              alt={`${player_hand[3].value} of ${player_hand[3].suit}`}
+            />
+          )
+          /* player_hand.map(card => {
+              <img src={card.imageURL} />;
+            }) */
+          }
         </DisplayCardsInHand>
         <DisplayCardsInHand>
           <h2>Dealer Cards</h2>
-          <img
-            src={`https://deckofcardsapi.com/static/img/AH.png`}
-            // src={`${player_hand[0].imageURL}`}
-            alt={"hello"}
-            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
-          />
-          <img
-            src={`https://deckofcardsapi.com/static/img/AC.png`}
-            // src={`${player_hand[0].imageURL}`}
-            alt={"hello"}
-            // alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
-          />
+          {dealer_hand[0] && (
+            <img
+              src={`${dealer_hand[0].imageURL}`}
+              alt={`${dealer_hand[0].value} of ${dealer_hand[0].suit}`}
+            />
+          )}
+          {dealer_hand[1] && (
+            <img
+              src={`${dealer_hand[1].imageURL}`}
+              alt={`${dealer_hand[1].value} of ${dealer_hand[1].suit}`}
+            />
+          )}
+          {dealer_hand[2] && (
+            <img
+              src={`${dealer_hand[2].imageURL}`}
+              alt={`${dealer_hand[2].value} of ${dealer_hand[2].suit}`}
+            />
+          )}{" "}
+          {dealer_hand[3] && (
+            <img
+              src={`${dealer_hand[3].imageURL}`}
+              alt={`${dealer_hand[3].value} of ${dealer_hand[3].suit}`}
+            />
+          )}
         </DisplayCardsInHand>
       </DisplayCardsDiv>
 
@@ -151,8 +203,8 @@ function Blackjack() {
           <Button variant="secondary" onClick={drawCard}>
             Hit
           </Button>
-          <Button variant="secondary" onClick={computeHand}>
-            Stay
+          <Button variant="secondary" onClick={drawDealer}>
+            Test Dealer Draw
           </Button>
         </GroupOfButtons>
 
