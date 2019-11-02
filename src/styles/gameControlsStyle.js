@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const GameControlsDiv = styled.div`
-  height: 140px;
+  padding: 15px;
   width: 450px;
   margin: auto;
   p {
