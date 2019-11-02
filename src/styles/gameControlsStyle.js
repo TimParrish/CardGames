@@ -11,3 +11,18 @@ export const GameControlsDiv = styled.div`
   background-color: white;
   border-radius: 10px;
 `;
+
+export const GameControlsButtonDiv = styled.div`
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+export const GameControlButton = styled.button`
+  width: 125px;
+  background-color: lightgreen;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+`;

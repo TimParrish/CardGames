@@ -1,6 +1,5 @@
 ### ToDo List:
 
-- (Tim) Remove Bootstrap
 - (Tim) Add blackjack logic
 - Update render function to a forEach loop or .map function
 - Fix render delay issue

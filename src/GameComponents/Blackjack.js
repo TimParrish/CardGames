@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 // import { CardsOnFire } from "images";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, ButtonGroup } from "react-bootstrap";
 import styled from "styled-components";
-import { DisplayCardsInHand, DisplayCardsDiv, GameControlsDiv } from "styles";
+import {
+  DisplayHand,
+  DisplayCardsDiv,
+  GameControlsDiv,
+  GameControlsButtonDiv,
+  GameControlButton
+} from "styles";
 
 let player_hand = [];
 let dealer_hand = [];
-
-const GroupOfButtons = styled(ButtonGroup)`
-  ${"" /* background-color: red; */}
-  padding-top: 8 px;
-  padding-left: 100px;
-`;
 
 function Blackjack() {
   const [deckId, setDeckId] = useState("");
@@ -101,7 +99,7 @@ function Blackjack() {
   return (
     <>
       <DisplayCardsDiv>
-        <DisplayCardsInHand type="player">
+        <DisplayHand type="player">
           <h2>Player Cards</h2>
           {player_hand[0] && (
             <img
@@ -131,8 +129,8 @@ function Blackjack() {
               <img src={card.imageURL} />;
             }) */
           }
-        </DisplayCardsInHand>
-        <DisplayCardsInHand>
+        </DisplayHand>
+        <DisplayHand>
           <h2>Dealer Cards</h2>
           {dealer_hand[0] && (
             <img
@@ -158,22 +156,17 @@ function Blackjack() {
               alt={`${dealer_hand[3].value} of ${dealer_hand[3].suit}`}
             />
           )}
-        </DisplayCardsInHand>
+        </DisplayHand>
       </DisplayCardsDiv>
 
       <GameControlsDiv>
-        <GroupOfButtons aria-label="Game Control Buttons" size="lg">
-          <Button variant="secondary" onClick={startNewGame}>
-            New Game
-          </Button>
-          <Button variant="secondary" onClick={drawCard}>
-            Hit
-          </Button>
-          <Button variant="secondary" onClick={drawDealer}>
+        <GameControlsButtonDiv>
+          <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
+          <GameControlButton onClick={drawCard}>Hit</GameControlButton>
+          <GameControlButton onClick={drawDealer}>
             Dealer Draw
-          </Button>
-        </GroupOfButtons>
-
+          </GameControlButton>
+        </GameControlsButtonDiv>
         <p>The deck ID is: {deckId}</p>
         <p>Total cards remaining in the deck: {cardsRemaining}</p>
 
