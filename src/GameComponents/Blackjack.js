@@ -4,50 +4,15 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 import styled from "styled-components";
+import { DisplayCardsInHand, DisplayCardsDiv, GameControlsDiv } from "styles";
 
 let player_hand = [];
 let dealer_hand = [];
-
-const GameControlsDiv = styled.div`
-  height: 140px;
-  width: 450px;
-  margin: auto;
-  p {
-    padding-top: 5px;
-    text-align: center;
-  }
-  background-color: white;
-  border-radius: 10px;
-`;
-
-const DisplayCardsDiv = styled.div`
-  height: 350px;
-  width: 850px;
-  margin: auto;
-  ${"" /* background-color: red; */}
-`;
 
 const GroupOfButtons = styled(ButtonGroup)`
   ${"" /* background-color: red; */}
   padding-top: 8 px;
   padding-left: 100px;
-`;
-
-const DisplayCardsInHand = styled.div`
-  width: 400px;
-  float: ${({ type }) => (type === "player" ? "left" : "right")};
-  background-color: ${({ type }) =>
-    type === "player" ? "darkgreen" : "#4F265B"};
-  h2 {
-    text-align: center;
-    background-color: lightgrey;
-  }
-  img {
-    height: 30%;
-    width: 30%;
-    float: left;
-  }
-  padding: 10px;
 `;
 
 function Blackjack() {
@@ -127,8 +92,9 @@ function Blackjack() {
         }
       });
   }
+
+  // TODO: add logic to compute hand values here
   function computeHand() {
-    console.log("TODO: add logic for the game here");
     //clear cards in hand
   }
 
@@ -204,7 +170,7 @@ function Blackjack() {
             Hit
           </Button>
           <Button variant="secondary" onClick={drawDealer}>
-            Test Dealer Draw
+            Dealer Draw
           </Button>
         </GroupOfButtons>
 

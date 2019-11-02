@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { StyledFooter } from "styles";
 import "./styles/background.css";
 import "./styles/rootStyle.css";
-import styled from "styled-components";
 
 document.title = "React Card Games";
 
