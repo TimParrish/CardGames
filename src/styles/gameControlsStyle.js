@@ -25,4 +25,8 @@ export const GameControlButton = styled.button`
   padding: 10px;
   margin-top: 10px;
   border-radius: 5px;
+  &:hover {
+    background-color: orange;
+    box-shadow: inset 0px 0px 30px #ccc;
+  }
 `;

@@ -101,61 +101,25 @@ function Blackjack() {
       <DisplayCardsDiv>
         <DisplayHand type="player">
           <h2>Player Cards</h2>
-          {player_hand[0] && (
-            <img
-              src={`${player_hand[0].imageURL}`}
-              alt={`${player_hand[0].value} of ${player_hand[0].suit}`}
-            />
-          )}
-          {player_hand[1] && (
-            <img
-              src={`${player_hand[1].imageURL}`}
-              alt={`${player_hand[1].value} of ${player_hand[1].suit}`}
-            />
-          )}
-          {player_hand[2] && (
-            <img
-              src={`${player_hand[2].imageURL}`}
-              alt={`${player_hand[2].value} of ${player_hand[2].suit}`}
-            />
-          )}{" "}
-          {player_hand[3] && (
-            <img
-              src={`${player_hand[3].imageURL}`}
-              alt={`${player_hand[3].value} of ${player_hand[3].suit}`}
-            />
-          )
-          /* player_hand.map(card => {
-              <img src={card.imageURL} />;
-            }) */
-          }
+          {player_hand.map((card, i) => {
+            return (
+              <img
+                src={`${player_hand[i].imageURL}`}
+                alt={`${player_hand[i].value} of ${player_hand[i].suit}`}
+              />
+            );
+          })}
         </DisplayHand>
         <DisplayHand>
           <h2>Dealer Cards</h2>
-          {dealer_hand[0] && (
-            <img
-              src={`${dealer_hand[0].imageURL}`}
-              alt={`${dealer_hand[0].value} of ${dealer_hand[0].suit}`}
-            />
-          )}
-          {dealer_hand[1] && (
-            <img
-              src={`${dealer_hand[1].imageURL}`}
-              alt={`${dealer_hand[1].value} of ${dealer_hand[1].suit}`}
-            />
-          )}
-          {dealer_hand[2] && (
-            <img
-              src={`${dealer_hand[2].imageURL}`}
-              alt={`${dealer_hand[2].value} of ${dealer_hand[2].suit}`}
-            />
-          )}{" "}
-          {dealer_hand[3] && (
-            <img
-              src={`${dealer_hand[3].imageURL}`}
-              alt={`${dealer_hand[3].value} of ${dealer_hand[3].suit}`}
-            />
-          )}
+          {dealer_hand.map((card, i) => {
+            return (
+              <img
+                src={`${dealer_hand[i].imageURL}`}
+                alt={`${dealer_hand[i].value} of ${dealer_hand[i].suit}`}
+              />
+            );
+          })}
         </DisplayHand>
       </DisplayCardsDiv>
 

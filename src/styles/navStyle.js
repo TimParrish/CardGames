@@ -17,6 +17,7 @@ export const StyledLink = styled(NavLink)`
     background-color: #eee;
     color: #333;
     box-shadow: inset 0px 0px 30px #ccc;
+  }
 `;
 
 export const NavBarContainer = styled.div`

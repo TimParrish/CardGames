@@ -4,7 +4,6 @@ export const DisplayCardsDiv = styled.div`
   height: 350px;
   width: 850px;
   margin: auto;
-  ${"" /* background-color: red; */}
 `;
 
 export const DisplayHand = styled.div`
@@ -17,9 +16,9 @@ export const DisplayHand = styled.div`
     background-color: lightgrey;
   }
   img {
+    padding: 5px;
     height: 30%;
     width: 30%;
     float: left;
   }
-  padding: 10px;
 `;
