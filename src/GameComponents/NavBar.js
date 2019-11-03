@@ -9,8 +9,8 @@ function NavBar() {
           View All Games
         </StyledLink>
         <StyledLink to="/card-games/blackjack">Blackjack</StyledLink>
-        <StyledLink type="last" to="/card-games/solitaire">
-          solitaire
+        <StyledLink type="last" to="/card-games/war">
+          War
         </StyledLink>
       </NavBarContainer>
     </>

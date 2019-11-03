@@ -14,28 +14,38 @@ let player_hand = [];
 let dealer_hand = [];
 
 function Blackjack() {
-  const [deckId, setDeckId] = useState("");
-  const [shuffled, setShuffled] = useState("");
-  const [cardsRemaining, setCardsRemaining] = useState("");
-  //   const [playerNumberWins, setPlayerNumberWins] = useState(0);
-  //   const [dealerNumberWins, setDealerNumberWins] = useState(0);
-  void shuffled;
+  const [deckId, setDeckId] = useState(0);
+  const [cardsRemaining, setCardsRemaining] = useState(0);
+  const [playerHandValue, setPlayerHandValue] = useState(0);
+  const [dealerHandValue, setDealerHandValue] = useState(0);
+  const [playerAceCount, setPlayerAceCount] = useState(0);
+  const [dealerAceCount, setDealerAceCount] = useState(0);
+  const [playerNumberWins, setPlayerNumberWins] = useState(0);
+  const [dealerNumberWins, setDealerNumberWins] = useState(0);
+  const [, updateRender] = useState("");
 
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
     axios
-      .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+      .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6`)
       .then(result => {
         result.data.success && console.log("The result was a success!!");
 
         setDeckId(result.data.deck_id);
-        setShuffled(result.data.shuffled);
         setCardsRemaining(result.data.remaining);
-        //clear the cards in the players hands
-        player_hand = [];
-        dealer_hand = [];
+        newRound();
       })
       .catch(error => console.log(error));
+  }
+
+  function newRound() {
+    player_hand = [];
+    dealer_hand = [];
+    setPlayerAceCount(0);
+    setDealerAceCount(0);
+    setDealerHandValue(0);
+    setPlayerHandValue(0);
+    updateRender(n => !n);
   }
 
   function drawCard() {
@@ -44,7 +54,6 @@ function Blackjack() {
       .then(result => {
         result.data.success && console.log(`We successfully drew cards!!`);
 
-        setShuffled(result.data.shuffled);
         setCardsRemaining(result.data.remaining);
         try {
           let card = result.data.cards[0];
@@ -55,22 +64,85 @@ function Blackjack() {
             imageURL: `${card.image}`,
             cardCode: `${card.code}`
           };
+          switch (card.value) {
+            case "ACE":
+              setPlayerHandValue(Number(11) + playerHandValue);
+              setPlayerAceCount(Number(1) + playerAceCount);
+              break;
+            case "KING":
+              setPlayerHandValue(Number(10) + playerHandValue);
+              break;
+            case "QUEEN":
+              setPlayerHandValue(Number(10) + playerHandValue);
+              break;
+            case "JACK":
+              setPlayerHandValue(Number(10) + playerHandValue);
+              break;
+            default:
+              setPlayerHandValue(Number(card.value) + playerHandValue);
+              break;
+          }
           player_hand.push(drawn_card);
-          console.log("The card from the players hand is:");
-          // console.log(player_hand[0]);
-          console.log(player_hand);
+          updateRender(n => !n);
+          if (playerHandValue > 21) {
+            computeHand();
+          }
         } catch (err) {
           console.log("failed to parse JSON for desired values");
         }
       });
   }
+
+  function playerStay() {
+    if (dealerHandValue < 16) {
+      drawDealer();
+    } else {
+      //dealer draws
+      computeHand();
+    }
+  }
+
+  function computeHand() {
+    if (playerHandValue > 21) {
+      if (playerAceCount > 0) {
+        setPlayerAceCount(playerAceCount - 1);
+        setPlayerHandValue(playerHandValue - 10);
+        console.log("used an Ace to save yourself");
+      } else {
+        console.log("the player busted!!!");
+        setDealerNumberWins(dealerNumberWins + 1);
+        newRound();
+      }
+    } else if (dealerHandValue > 21) {
+      if (dealerAceCount > 0) {
+        setDealerAceCount(dealerAceCount - 1);
+        setDealerHandValue(dealerHandValue - 10);
+        console.log("dealer used an Ace to save themself");
+      } else {
+        console.log("the dealer busted!!");
+        setPlayerNumberWins(playerNumberWins + 1);
+        newRound();
+      }
+    } else if (playerHandValue === dealerHandValue) {
+      console.log("push");
+      newRound();
+    } else if (playerHandValue > dealerHandValue) {
+      setPlayerNumberWins(playerNumberWins + 1);
+      console.log("Player wins!!");
+      newRound();
+    } else {
+      setDealerNumberWins(dealerNumberWins + 1);
+      console.log("Dealer wins...");
+      newRound();
+    }
+  }
+
   function drawDealer() {
     axios
       .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(result => {
         result.data.success && console.log(`We successfully drew cards!!`);
 
-        setShuffled(result.data.shuffled);
         setCardsRemaining(result.data.remaining);
         try {
           let card = result.data.cards[0];
@@ -81,19 +153,33 @@ function Blackjack() {
             imageURL: `${card.image}`,
             cardCode: `${card.code}`
           };
+          switch (card.value) {
+            case "ACE":
+              setDealerHandValue(Number(11) + dealerHandValue);
+              setDealerAceCount(Number(1) + dealerAceCount);
+              break;
+            case "KING":
+              setDealerHandValue(Number(10) + dealerHandValue);
+              break;
+            case "QUEEN":
+              setDealerHandValue(Number(10) + dealerHandValue);
+              break;
+            case "JACK":
+              setDealerHandValue(Number(10) + dealerHandValue);
+              break;
+            default:
+              setDealerHandValue(Number(card.value) + dealerHandValue);
+              break;
+          }
           dealer_hand.push(drawn_card);
-          console.log("The card from the players hand is:");
-          // console.log(player_hand[0]);
-          console.log(dealer_hand);
+          updateRender(n => !n);
+          if (dealerHandValue > 21) {
+            computeHand();
+          }
         } catch (err) {
           console.log("failed to parse JSON for desired values");
         }
       });
-  }
-
-  // TODO: add logic to compute hand values here
-  function computeHand() {
-    //clear cards in hand
   }
 
   return (
@@ -126,6 +212,7 @@ function Blackjack() {
       <GameControlsDiv>
         <GameControlsButtonDiv>
           <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
+          <GameControlButton onClick={playerStay}>Stay</GameControlButton>
           <GameControlButton onClick={drawCard}>Hit</GameControlButton>
           <GameControlButton onClick={drawDealer}>
             Dealer Draw
@@ -133,6 +220,10 @@ function Blackjack() {
         </GameControlsButtonDiv>
         <p>The deck ID is: {deckId}</p>
         <p>Total cards remaining in the deck: {cardsRemaining}</p>
+        <p>Player hand value: {playerHandValue}</p>
+        <p>Dealer hand value: {dealerHandValue}</p>
+        <p>Player num wins: {playerNumberWins}</p>
+        <p>Dealer num wins: {dealerNumberWins}</p>
 
         {/* <p>{data}</p> */}
         {/* <Image src={CardsOnFire} rounded />
