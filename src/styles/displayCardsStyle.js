@@ -16,8 +16,8 @@ export const DisplayHand = styled.div`
   }
   img {
     padding: 5px;
-    height: 30%;
-    width: 30%;
+    height: 175px;
+    width: 123px;
     float: left;
   }
 `;

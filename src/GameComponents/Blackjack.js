@@ -24,8 +24,8 @@ function Blackjack() {
   const [dealerNumberWins, setDealerNumberWins] = useState(0);
   const [dealerFirstCardURL, setDealerFirstCardURL] = useState("");
   const [, updateRender] = useState("");
-  const hiddenCardImage =
-    "https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-2_grande.png?v=1474344815";
+  const hiddenCardImage = CardsOnFire;
+
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
     axios
@@ -96,6 +96,12 @@ function Blackjack() {
   }
 
   function playerStay() {
+    //show dealer card
+    if (dealer_hand[0].imageURL === hiddenCardImage) {
+      console.log(setDealerFirstCardURL);
+      dealer_hand[0].imageURL = dealerFirstCardURL;
+      updateRender(n => !n);
+    }
     if (dealerHandValue < 16) {
       drawDealer();
     } else {
@@ -104,7 +110,7 @@ function Blackjack() {
     }
   }
 
-  function computeHand() {
+  async function computeHand() {
     if (playerHandValue > 21) {
       if (playerAceCount > 0) {
         setPlayerAceCount(playerAceCount - 1);
@@ -113,6 +119,7 @@ function Blackjack() {
       } else {
         console.log("the player busted!!!");
         setDealerNumberWins(dealerNumberWins + 1);
+        await sleepDelay(3000);
         newRound();
       }
     } else if (dealerHandValue > 21) {
@@ -123,18 +130,22 @@ function Blackjack() {
       } else {
         console.log("the dealer busted!!");
         setPlayerNumberWins(playerNumberWins + 1);
+        await sleepDelay(3000);
         newRound();
       }
     } else if (playerHandValue === dealerHandValue) {
       console.log("push");
+      await sleepDelay(3000);
       newRound();
     } else if (playerHandValue > dealerHandValue) {
       setPlayerNumberWins(playerNumberWins + 1);
       console.log("Player wins!!");
+      await sleepDelay(3000);
       newRound();
     } else {
       setDealerNumberWins(dealerNumberWins + 1);
       console.log("Dealer wins...");
+      await sleepDelay(3000);
       newRound();
     }
   }
@@ -188,6 +199,9 @@ function Blackjack() {
       });
   }
 
+  function sleepDelay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   return (
     <>
       <DisplayCardsDiv>
