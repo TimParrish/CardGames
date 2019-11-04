@@ -12,3 +12,5 @@ ReactJS, NodeJS and use dependencies of:
 The goal is to have a website/web app that has navigation between card games like Blackjack, Solitare, FreeCell, etc.
 
 The API we are using is the [DeckOfCardsAPI.com](http://deckofcardsapi.com/)
+
+We are using the 'Graceful degration' design strategy to modify this for mobile use after the desktop site is complete
