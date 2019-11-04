@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-// import { CardsOnFire } from "images";
+import { CardsOnFire } from "images";
 import styled from "styled-components";
 import {
   DisplayHand,
@@ -22,8 +22,10 @@ function Blackjack() {
   const [dealerAceCount, setDealerAceCount] = useState(0);
   const [playerNumberWins, setPlayerNumberWins] = useState(0);
   const [dealerNumberWins, setDealerNumberWins] = useState(0);
+  const [dealerFirstCardURL, setDealerFirstCardURL] = useState("");
   const [, updateRender] = useState("");
-
+  const hiddenCardImage =
+    "https://cdn.shopify.com/s/files/1/0200/7616/products/playing-cards-bicycle-rider-back-2_grande.png?v=1474344815";
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
     axios
@@ -172,6 +174,10 @@ function Blackjack() {
               break;
           }
           dealer_hand.push(drawn_card);
+          if (dealer_hand.length == 1) {
+            setDealerFirstCardURL(dealer_hand[0].imageURL);
+            dealer_hand[0].imageURL = hiddenCardImage;
+          }
           updateRender(n => !n);
           if (dealerHandValue > 21) {
             computeHand();
