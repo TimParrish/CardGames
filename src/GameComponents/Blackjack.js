@@ -23,6 +23,7 @@ function Blackjack() {
   const [playerNumberWins, setPlayerNumberWins] = useState(0);
   const [dealerNumberWins, setDealerNumberWins] = useState(0);
   const [dealerFirstCardURL, setDealerFirstCardURL] = useState("");
+  const [dealerCardHidden, setDealerCardHidden] = useState(true);
   const [, updateRender] = useState("");
   const hiddenCardImage = CardsOnFire;
 
@@ -47,6 +48,7 @@ function Blackjack() {
     setDealerAceCount(0);
     setDealerHandValue(0);
     setPlayerHandValue(0);
+    setDealerCardHidden("");
     updateRender(n => !n);
   }
 
@@ -97,9 +99,10 @@ function Blackjack() {
 
   function playerStay() {
     //show dealer card
-    if (dealer_hand[0].imageURL === hiddenCardImage) {
+    if (dealerCardHidden === true) {
       console.log(setDealerFirstCardURL);
       dealer_hand[0].imageURL = dealerFirstCardURL;
+      setDealerCardHidden(false);
       updateRender(n => !n);
     }
     if (dealerHandValue < 16) {
@@ -188,6 +191,7 @@ function Blackjack() {
           if (dealer_hand.length == 1) {
             setDealerFirstCardURL(dealer_hand[0].imageURL);
             dealer_hand[0].imageURL = hiddenCardImage;
+            setDealerCardHidden(true);
           }
           updateRender(n => !n);
           if (dealerHandValue > 21) {
