@@ -211,22 +211,22 @@ function Blackjack() {
       <DisplayCardsDiv>
         <DisplayHand type="player">
           <h2>Player Cards</h2>
-          {player_hand.map((card, i) => {
+          {player_hand.map(card => {
             return (
               <img
-                src={`${player_hand[i].imageURL}`}
-                alt={`${player_hand[i].value} of ${player_hand[i].suit}`}
+                src={`${card.imageURL}`}
+                alt={`${card.value} of ${card.suit}`}
               />
             );
           })}
         </DisplayHand>
         <DisplayHand>
           <h2>Dealer Cards</h2>
-          {dealer_hand.map((card, i) => {
+          {dealer_hand.map(card => {
             return (
               <img
-                src={`${dealer_hand[i].imageURL}`}
-                alt={`${dealer_hand[i].value} of ${dealer_hand[i].suit}`}
+                src={`${card.imageURL}`}
+                alt={`${card.value} of ${card.suit}`}
               />
             );
           })}
