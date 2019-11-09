@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { CardsOnFire } from "images";
-import styled from "styled-components";
 import {
   DisplayHand,
   DisplayCardsDiv,
@@ -188,7 +187,7 @@ function Blackjack() {
               break;
           }
           dealer_hand.push(drawn_card);
-          if (dealer_hand.length == 1) {
+          if (dealer_hand.length === 1) {
             setDealerFirstCardURL(dealer_hand[0].imageURL);
             dealer_hand[0].imageURL = hiddenCardImage;
             setDealerCardHidden(true);
