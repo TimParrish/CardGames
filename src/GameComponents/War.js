@@ -9,11 +9,14 @@ import {
   GameControlButton
 } from "styles";
 
-let player_hand = [];
-let dealer_hand = [];
+let player_pile = [];//cards the player has
+let player_card = [];//card the player drew
+
+let dealer_pile = [];//cards the dealer has
+let dealer_card = [];//card the dealer drew
 
 function War() {
-  const [deckId, setDeckId] = useState("");
+  const [deckId, setDeckId] = useState(0);
   const [shuffled, setShuffled] = useState("");
   const [cardsRemaining, setCardsRemaining] = useState("");
   const [, updateRender] = useState();
@@ -31,49 +34,87 @@ function War() {
         setDeckId(result.data.deck_id);
         setShuffled(result.data.shuffled);
         setCardsRemaining(result.data.remaining);
-        //clear the cards in the players hands
-        player_hand = [];
-        dealer_hand = [];
+        console.log(result.data.deck_id)
+        deckId = result.data.deck_id;
+        //clear the cards in the player and dealer hands
+        player_pile = [];
+        dealer_pile = [];
+        //split the cards evenly between player and dealer
+        splitDeck();
       })
       .catch(error => console.log(error));
+  }
+
+  function splitDeck() {
+    axios
+      .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
+      .then(result => {
+        result.data.success && console.log("The split was a success!!");
+        var i;
+        for(i=0; i<result.data.remaining/2; i+=2) {
+          let card = result.data.cards[i];
+          //create a card object to push onto the player hand
+          let drawn_card1 = {
+            value: `${card.value}`,
+            suit: `${card.suit}`,
+            imageURL: `${card.image}`,
+            cardCode: `${card.code}`
+          };
+
+          card = result.data.cards[i+1];
+          //create a card object to push onto the dealer hand
+          let drawn_card2 = {
+            value: `${card.value}`,
+            suit: `${card.suit}`,
+            imageURL: `${card.image}`,
+            cardCode: `${card.code}`
+          };
+
+          //add 1 card to both player and dealer piles
+          player_pile.push(drawn_card1)
+          console.log(drawn_card1.value)
+          dealer_pile.push(drawn_card2)
+          console.log(drawn_card2.value)
+        }
+      })
+  }
+
+  function draw() {
+    player_card = player_pile[Math.round(Math.random() * player_pile.length)]
+    dealer_card = dealer_pile[Math.round(Math.random() * dealer_pile.length)]
+//    console.log(player_card.value)
+//    console.log(dealer_card.value)
   }
 
   return (
     <>
       <DisplayCardsDiv>
         <DisplayHand type="player">
-          <h2>Player Cards</h2>
-          {player_hand.map((card, i) => {
-            return (
-              <img
-                src={`${player_hand[i].imageURL}`}
-                alt={`${player_hand[i].value} of ${player_hand[i].suit}`}
-              />
-            );
-          })}
+          <h2>Player Card</h2>
+          <img
+              src={`${player_card.imageURL}`}
+              alt={`${player_card.value} of ${player_card.suit}`}
+            />
         </DisplayHand>
         <DisplayHand>
-          <h2>Dealer Cards</h2>
-          {dealer_hand.map((card, i) => {
-            return (
-              <img
-                src={`${dealer_hand[i].imageURL}`}
-                alt={`${dealer_hand[i].value} of ${dealer_hand[i].suit}`}
-              />
-            );
-          })}
+          <h2>Dealer Card</h2>
+          <img
+              src={`${dealer_card.imageURL}`}
+              alt={`${dealer_card.value} of ${dealer_card.suit}`}
+            />
         </DisplayHand>
       </DisplayCardsDiv>
 
       <GameControlsDiv>
         <GameControlsButtonDiv>
           <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
-          <GameControlButton>Hit</GameControlButton>
+          <GameControlButton onClick={draw}>Hit</GameControlButton>
           <GameControlButton>Dealer Draw</GameControlButton>
         </GameControlsButtonDiv>
         <h1>Welcome to WAR!</h1>
         <p>The deck ID is: {deckId}</p>
-        <p>Total cards remaining in the deck: {cardsRemaining}</p>
+        <p>Player has: {player_pile.length} cards.</p>
+        <p>Dealer has: {dealer_pile.length} cards.</p>
       </GameControlsDiv>
     </>
   );
