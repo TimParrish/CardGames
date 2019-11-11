@@ -91,17 +91,25 @@ function War() {
       <DisplayCardsDiv>
         <DisplayHand type="player">
           <h2>Player Card</h2>
-          <img
-              src={`${player_card.imageURL}`}
-              alt={`${player_card.value} of ${player_card.suit}`}
-            />
+          {player_card.map(card => {
+            return (
+              <img
+                src={`${card.imageURL}`}
+                alt={`${card.value} of ${card.suit}`}
+              />
+            );
+          })}
         </DisplayHand>
         <DisplayHand>
           <h2>Dealer Card</h2>
-          <img
-              src={`${dealer_card.imageURL}`}
-              alt={`${dealer_card.value} of ${dealer_card.suit}`}
-            />
+          {dealer_card.map(card => {
+            return (
+              <img
+                src={`${card.imageURL}`}
+                alt={`${card.value} of ${card.suit}`}
+              />
+            );
+          })}
         </DisplayHand>
       </DisplayCardsDiv>
 
