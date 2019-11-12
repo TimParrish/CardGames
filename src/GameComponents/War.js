@@ -16,10 +16,11 @@ let dealer_pile = [];//cards the dealer has
 let dealer_card = [];//card the dealer drew
 
 function War() {
-  const [deckId, setDeckId] = useState(0);
+  const [deckId, setDeckId] = useState("");
   const [shuffled, setShuffled] = useState("");
   const [cardsRemaining, setCardsRemaining] = useState("");
   const [, updateRender] = useState();
+  var curDeck;
   //   const [playerNumberWins, setPlayerNumberWins] = useState(0);
   //   const [dealerNumberWins, setDealerNumberWins] = useState(0);
   void shuffled;
@@ -27,63 +28,59 @@ function War() {
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
     axios
-      .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
-      .then(result => {
-        result.data.success && console.log("The result was a success!!");
+    .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+    .then(result => {
+      result.data.success && console.log("Deck obtained");
 
-        setDeckId(result.data.deck_id);
-        setShuffled(result.data.shuffled);
-        setCardsRemaining(result.data.remaining);
-        console.log(result.data.deck_id)
-        deckId = result.data.deck_id;
-        //clear the cards in the player and dealer hands
-        player_pile = [];
-        dealer_pile = [];
-        //split the cards evenly between player and dealer
-        splitDeck();
-      })
-      .catch(error => console.log(error));
-  }
-
-  function splitDeck() {
-    axios
-      .get(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
+      setDeckId(result.data.deck_id);
+      setShuffled(result.data.shuffled);
+      setCardsRemaining(result.data.remaining);
+      curDeck = result.data.deck_id;
+      //clear the cards in the player and dealer hands
+      player_pile = [];
+      dealer_pile = [];
+      //split the deck
+      axios
+      .get(`https://deckofcardsapi.com/api/deck/${curDeck}/draw/?count=52`)
       .then(result => {
-        result.data.success && console.log("The split was a success!!");
+        result.data.success && console.log("Beginning split");
+
         var i;
-        for(i=0; i<result.data.remaining/2; i+=2) {
-          let card = result.data.cards[i];
+        for(i=0; i<52; i+=2) {
+          let card1 = result.data.cards[i];
           //create a card object to push onto the player hand
           let drawn_card1 = {
-            value: `${card.value}`,
-            suit: `${card.suit}`,
-            imageURL: `${card.image}`,
-            cardCode: `${card.code}`
+            value: `${card1.value}`,
+            suit: `${card1.suit}`,
+            imageURL: `${card1.image}`,
+            cardCode: `${card1.code}`
           };
 
-          card = result.data.cards[i+1];
+          let card2 = result.data.cards[i+1];
           //create a card object to push onto the dealer hand
           let drawn_card2 = {
-            value: `${card.value}`,
-            suit: `${card.suit}`,
-            imageURL: `${card.image}`,
-            cardCode: `${card.code}`
+            value: `${card2.value}`,
+            suit: `${card2.suit}`,
+            imageURL: `${card2.image}`,
+            cardCode: `${card2.code}`
           };
 
           //add 1 card to both player and dealer piles
           player_pile.push(drawn_card1)
-          console.log(drawn_card1.value)
           dealer_pile.push(drawn_card2)
-          console.log(drawn_card2.value)
+          console.log(player_pile[i]);
         }
       })
+      .catch(error => console.log(error));
+    })
+    .catch(error => console.log(error));
   }
 
   function draw() {
-    player_card = player_pile[Math.round(Math.random() * player_pile.length)]
-    dealer_card = dealer_pile[Math.round(Math.random() * dealer_pile.length)]
-//    console.log(player_card.value)
-//    console.log(dealer_card.value)
+    player_card = player_pile.pop()
+    dealer_card = dealer_pile.pop()
+    console.log("Player flipped over " + player_card.value)
+    console.log("Dealer flipped over " + dealer_card.value)
   }
 
   return (
