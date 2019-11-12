@@ -15,6 +15,8 @@ let player_card = [];//card the player drew
 let dealer_pile = [];//cards the dealer has
 let dealer_card = [];//card the dealer drew
 
+let winner = "no one.";
+
 function War() {
   const [deckId, setDeckId] = useState("");
   const [shuffled, setShuffled] = useState("");
@@ -68,7 +70,7 @@ function War() {
           //add 1 card to both player and dealer piles
           player_pile.push(drawn_card1)
           dealer_pile.push(drawn_card2)
-          console.log(player_pile[i]);
+//          console.log(player_pile[i]);
         }
       })
       .catch(error => console.log(error));
@@ -81,6 +83,81 @@ function War() {
     dealer_card = dealer_pile.pop()
     console.log("Player flipped over " + player_card.value)
     console.log("Dealer flipped over " + dealer_card.value)
+    updateRender(n => !n);
+    computeFlipWinner();
+    gameWon();
+  }
+
+  //computes who won the flip
+  function computeFlipWinner(){
+    //get player card value
+    var player_score=0;
+    switch(player_card.value){
+      case "ACE"://highest card in the game
+        player_score = 14;
+        break;
+      case "KING":
+        player_score = 13;
+        break;
+      case "QUEEN":
+        player_score = 12;
+        break;
+      case "JACK":
+        player_score = 11;
+        break;
+      default:
+        player_score = player_card.value;
+        break;
+    }
+    //get deal card value
+    var dealer_score=0;
+    switch(dealer_card.value){
+      case "ACE"://highest card in the game
+        dealer_score = 14;
+        break;
+      case "KING":
+        dealer_score = 13;
+        break;
+      case "QUEEN":
+        dealer_score = 12;
+        break;
+      case "JACK":
+        dealer_score = 11;
+        break;
+      default:
+        dealer_score = dealer_card.value;
+        break;
+    }
+    if(player_score > dealer_score){//player wins the flip
+      var tmp = [];
+      while(player_pile.length >0){
+        tmp.push(player_pile.pop());
+      }
+      player_pile.push(player_card);
+      player_pile.push(dealer_card);
+      while(tmp.length>0){
+        player_pile.push(tmp.pop());
+      }
+    }
+    else{//dealer wins
+      var tmp = [];
+      while(dealer_pile.length >0){
+        tmp.push(dealer_pile.pop());
+      }
+      dealer_pile.push(player_card);
+      dealer_pile.push(dealer_card);
+      while(tmp.length>0){
+        dealer_pile.push(tmp.pop());
+      }
+    }
+  }
+
+  //checks if either player has an empty deck
+  function gameWon(){
+    if(player_pile.length == 0)
+      winner = "the dealer.\nBetter luck next time.";
+    if(dealer_pile.length == 0)
+      winner = "the player.\nCongratulations! Please come again.";
   }
 
   return (
@@ -88,25 +165,35 @@ function War() {
       <DisplayCardsDiv>
         <DisplayHand type="player">
           <h2>Player Card</h2>
-          {player_card.map(card => {
+          {<img
+            src={`${player_card.imageURL}`}
+            alt={`no card`}
+          />
+          
+          /*player_card.map(card => {
             return (
               <img
                 src={`${card.imageURL}`}
                 alt={`${card.value} of ${card.suit}`}
               />
             );
-          })}
+          })*/}
         </DisplayHand>
         <DisplayHand>
           <h2>Dealer Card</h2>
-          {dealer_card.map(card => {
+          {<img
+            src={`${dealer_card.imageURL}`}
+            alt={`no card`}
+          />
+          
+          /*dealer_card.map(card => {
             return (
               <img
                 src={`${card.imageURL}`}
                 alt={`${card.value} of ${card.suit}`}
               />
             );
-          })}
+          })*/}
         </DisplayHand>
       </DisplayCardsDiv>
 
@@ -114,12 +201,12 @@ function War() {
         <GameControlsButtonDiv>
           <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
           <GameControlButton onClick={draw}>Hit</GameControlButton>
-          <GameControlButton>Dealer Draw</GameControlButton>
         </GameControlsButtonDiv>
         <h1>Welcome to WAR!</h1>
         <p>The deck ID is: {deckId}</p>
         <p>Player has: {player_pile.length} cards.</p>
         <p>Dealer has: {dealer_pile.length} cards.</p>
+        <p>The winner of this game is: {winner}</p>
       </GameControlsDiv>
     </>
   );
