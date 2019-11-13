@@ -57,7 +57,8 @@ function War() {
             value: `${card1.value}`,
             suit: `${card1.suit}`,
             imageURL: `${card1.image}`,
-            cardCode: `${card1.code}`
+            cardCode: `${card1.code}`,
+            faceUp: `${card1.image}`
           };
 
           let card2 = result.data.cards[i+1];
@@ -66,7 +67,8 @@ function War() {
             value: `${card2.value}`,
             suit: `${card2.suit}`,
             imageURL: `${card2.image}`,
-            cardCode: `${card2.code}`
+            cardCode: `${card2.code}`,
+            faceUp: `${card2.image}`
           };
 
           //add 1 card to both player and dealer piles
@@ -81,60 +83,87 @@ function War() {
     .catch(error => console.log(error));
   }
 
-  async function draw() {
-    console.log("\n\n");
-    player_card = player_pile.pop();
-    dealer_card = dealer_pile.pop();
+  function draw() {
+    //reset the pile for each player
+    dealer_card = [];
+    player_card = [];
+    if(!gameWon()){
+      console.log("\n");
+      player_card.push(player_pile.pop());
+      dealer_card.push(dealer_pile.pop());
+  //    dealer_card.imageURL = hiddenCardImage;
+      updateRender(n => !n);
+      computeFlipWinner();
+    }
+  }
+
+  async function drawTie(){
+    var i;
+    for(i = 0; i < 3; i++)//flip 3 cards face down
+    {
+      player_card.push(player_pile.pop());
+      player_card[player_card.length-1].imageURL = hiddenCardImage;
+
+      dealer_card.push(dealer_pile.pop());
+      dealer_card[dealer_card.length-1].imageURL = hiddenCardImage;
+    }
+    player_card.push(player_pile.pop());
+    dealer_card.push(dealer_pile.pop());
 //    dealer_card.imageURL = hiddenCardImage;
+    await sleepDelay(1);
     updateRender(n => !n);
     computeFlipWinner();
-    gameWon();
   }
 
   //computes who won the flip
-  function computeFlipWinner(){
+  async function computeFlipWinner(){
     //get player card value
-    var player_score = getCardValue(player_card);
-
+    var player_score = getCardValue(player_card[player_card.length-1]);
     //get deal card value
-    var dealer_score = getCardValue(dealer_card);
+    var dealer_score = getCardValue(dealer_card[dealer_card.length-1]);
 
-    var i;
     if(player_score === dealer_score){//its a tie
       console.log("Tie");
-      //for now the cards just go bak into the respective piles
-      addCard(player_pile, player_card);
-      addCard(dealer_pile, dealer_card);
+      drawTie();
     }
     else if(player_score > dealer_score){//player wins the flip
       console.log("Player wins this round");
-      addCard(player_pile, player_card);
-      addCard(player_pile, dealer_card);
+      while(player_card.length > 0){
+        await sleepDelay(1);
+        addCard(player_pile, player_card.pop());
+        addCard(player_pile, dealer_card.pop());
+      }
     }
     else{//dealer wins
       console.log("Dealer wins this round");
-      addCard(dealer_pile, player_card);
-      addCard(dealer_pile, dealer_card);
+      while(player_card.length > 0){
+        await sleepDelay(1);
+        addCard(dealer_pile, player_card.pop());
+        addCard(dealer_pile, dealer_card.pop());
+      }
     }
   }
 
+  //Gets te value of a given card
   function getCardValue(card){
-  switch(card.value){
-    case "ACE"://highest card in the game
-      return 14;
-    case "KING":
-      return 13;
-    case "QUEEN":
-      return 12;
-    case "JACK":
-      return 11;
-    default:
-      return player_card.value;
-  }
+    switch(card.value){
+      case "ACE"://highest value card in the game
+        return 14;
+      case "KING":
+        return 13;
+      case "QUEEN":
+        return 12;
+      case "JACK":
+        return 11;
+      default:
+        return card.value;
+    }
   }
 
+  //Adds the given card to the given pile
   function addCard(pile, card){
     var i
+    card.imageURL = card.faceUp;
     for(i = pile.length; i > 0; i--)
       {
         pile[i] = pile[i-1];
@@ -144,46 +173,45 @@ function War() {
 
   //checks if either player has an empty deck
   function gameWon(){
-    if(player_pile.length === 0)
+    if(player_pile.length === 0){
       winner = "the dealer.\nBetter luck next time.";
-    if(dealer_pile.length === 0)
+      return true;
+    }
+    if(dealer_pile.length === 0){
       winner = "the player.\nCongratulations! Please come again.";
+      return true;
+    }
+    return false;
   }
 
-/*  function sleepDelay(ms) {
+  function sleepDelay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }*/
+  }
 
   return (
     <>
       <DisplayCardsDiv>
         <DisplayHand type="player">
           <h2>Player Card</h2>
-          {<img
-            src={`${player_card.imageURL}`}
-            alt={`${player_card.value}`}
-          />/*player_card.map(card => {
+          {player_card.map(card => {
             return (
               <img
                 src={`${card.imageURL}`}
                 alt={`${card.value} of ${card.suit}`}
               />
             );
-          })*/}
+          })}
         </DisplayHand>
         <DisplayHand>
           <h2>Dealer Card</h2>
-          {<img
-            src={`${dealer_card.imageURL}`}
-            alt={`${dealer_card.value}`}
-          />/*dealer_card.map(card => {
+          {dealer_card.map(card => {
             return (
               <img
                 src={`${card.imageURL}`}
                 alt={`${card.value} of ${card.suit}`}
               />
             );
-          })*/}
+          })}
         </DisplayHand>
       </DisplayCardsDiv>
 
