@@ -8,6 +8,7 @@ import {
   GameControlsButtonDiv,
   GameControlButton
 } from "styles";
+import { CardsOnFire } from "images";
 
 let player_pile = [];//cards the player has
 let player_card = [];//card the player drew
@@ -22,6 +23,7 @@ function War() {
   const [shuffled, setShuffled] = useState("");
   const [cardsRemaining, setCardsRemaining] = useState("");
   const [, updateRender] = useState();
+  const hiddenCardImage = CardsOnFire;
   var curDeck;
   //   const [playerNumberWins, setPlayerNumberWins] = useState(0);
   //   const [dealerNumberWins, setDealerNumberWins] = useState(0);
@@ -55,7 +57,8 @@ function War() {
             value: `${card1.value}`,
             suit: `${card1.suit}`,
             imageURL: `${card1.image}`,
-            cardCode: `${card1.code}`
+            cardCode: `${card1.code}`,
+            faceUp: `${card1.image}`
           };
 
           let card2 = result.data.cards[i+1];
@@ -64,14 +67,16 @@ function War() {
             value: `${card2.value}`,
             suit: `${card2.suit}`,
             imageURL: `${card2.image}`,
-            cardCode: `${card2.code}`
+            cardCode: `${card2.code}`,
+            faceUp: `${card2.image}`
           };
 
           //add 1 card to both player and dealer piles
           player_pile.push(drawn_card1)
           dealer_pile.push(drawn_card2)
-//          console.log(player_pile[i]);
         }
+        //console.log(player_pile);
+        //console.log(dealer_pile);
       })
       .catch(error => console.log(error));
     })
@@ -79,85 +84,108 @@ function War() {
   }
 
   function draw() {
-    player_card = player_pile.pop()
-    dealer_card = dealer_pile.pop()
-    console.log("Player flipped over " + player_card.value)
-    console.log("Dealer flipped over " + dealer_card.value)
+    //reset the pile for each player
+    dealer_card = [];
+    player_card = [];
+    if(!gameWon()){
+      console.log("\n");
+      player_card.push(player_pile.pop());
+      dealer_card.push(dealer_pile.pop());
+  //    dealer_card.imageURL = hiddenCardImage;
+      updateRender(n => !n);
+      computeFlipWinner();
+    }
+  }
+
+  async function drawTie(){
+    var i;
+    for(i = 0; i < 3; i++)//flip 3 cards face down
+    {
+      player_card.push(player_pile.pop());
+      player_card[player_card.length-1].imageURL = hiddenCardImage;
+
+      dealer_card.push(dealer_pile.pop());
+      dealer_card[dealer_card.length-1].imageURL = hiddenCardImage;
+    }
+    player_card.push(player_pile.pop());
+    dealer_card.push(dealer_pile.pop());
+//    dealer_card.imageURL = hiddenCardImage;
+    await sleepDelay(1);
     updateRender(n => !n);
     computeFlipWinner();
-    gameWon();
   }
 
   //computes who won the flip
-  function computeFlipWinner(){
+  async function computeFlipWinner(){
     //get player card value
-    var player_score=0;
-    switch(player_card.value){
-      case "ACE"://highest card in the game
-        player_score = 14;
-        break;
-      case "KING":
-        player_score = 13;
-        break;
-      case "QUEEN":
-        player_score = 12;
-        break;
-      case "JACK":
-        player_score = 11;
-        break;
-      default:
-        player_score = player_card.value;
-        break;
-    }
+    var player_score = getCardValue(player_card[player_card.length-1]);
     //get deal card value
-    var dealer_score=0;
-    switch(dealer_card.value){
-      case "ACE"://highest card in the game
-        dealer_score = 14;
-        break;
-      case "KING":
-        dealer_score = 13;
-        break;
-      case "QUEEN":
-        dealer_score = 12;
-        break;
-      case "JACK":
-        dealer_score = 11;
-        break;
-      default:
-        dealer_score = dealer_card.value;
-        break;
+    var dealer_score = getCardValue(dealer_card[dealer_card.length-1]);
+
+    if(player_score === dealer_score){//its a tie
+      console.log("Tie");
+      drawTie();
     }
-    if(player_score > dealer_score){//player wins the flip
-      var tmp = [];
-      while(player_pile.length >0){
-        tmp.push(player_pile.pop());
-      }
-      player_pile.push(player_card);
-      player_pile.push(dealer_card);
-      while(tmp.length>0){
-        player_pile.push(tmp.pop());
+    else if(player_score > dealer_score){//player wins the flip
+      console.log("Player wins this round");
+      while(player_card.length > 0){
+        await sleepDelay(1);
+        addCard(player_pile, player_card.pop());
+        addCard(player_pile, dealer_card.pop());
       }
     }
     else{//dealer wins
-      var tmp = [];
-      while(dealer_pile.length >0){
-        tmp.push(dealer_pile.pop());
-      }
-      dealer_pile.push(player_card);
-      dealer_pile.push(dealer_card);
-      while(tmp.length>0){
-        dealer_pile.push(tmp.pop());
+      console.log("Dealer wins this round");
+      while(player_card.length > 0){
+        await sleepDelay(1);
+        addCard(dealer_pile, player_card.pop());
+        addCard(dealer_pile, dealer_card.pop());
       }
     }
+  }
+
+  //Gets te value of a given card
+  function getCardValue(card){
+    switch(card.value){
+      case "ACE"://highest value card in the game
+        return 14;
+      case "KING":
+        return 13;
+      case "QUEEN":
+        return 12;
+      case "JACK":
+        return 11;
+      default:
+        return card.value;
+    }
+  }
+
+  //Adds the given card to the given pile
+  function addCard(pile, card){
+    var i
+    card.imageURL = card.faceUp;
+    for(i = pile.length; i > 0; i--)
+      {
+        pile[i] = pile[i-1];
+      }
+      pile[0] = card;
   }
 
   //checks if either player has an empty deck
   function gameWon(){
-    if(player_pile.length == 0)
+    if(player_pile.length === 0){
       winner = "the dealer.\nBetter luck next time.";
-    if(dealer_pile.length == 0)
+      return true;
+    }
+    if(dealer_pile.length === 0){
       winner = "the player.\nCongratulations! Please come again.";
+      return true;
+    }
+    return false;
+  }
+
+  function sleepDelay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   return (
@@ -165,35 +193,25 @@ function War() {
       <DisplayCardsDiv>
         <DisplayHand type="player">
           <h2>Player Card</h2>
-          {<img
-            src={`${player_card.imageURL}`}
-            alt={`no card`}
-          />
-          
-          /*player_card.map(card => {
+          {player_card.map(card => {
             return (
               <img
                 src={`${card.imageURL}`}
                 alt={`${card.value} of ${card.suit}`}
               />
             );
-          })*/}
+          })}
         </DisplayHand>
         <DisplayHand>
           <h2>Dealer Card</h2>
-          {<img
-            src={`${dealer_card.imageURL}`}
-            alt={`no card`}
-          />
-          
-          /*dealer_card.map(card => {
+          {dealer_card.map(card => {
             return (
               <img
                 src={`${card.imageURL}`}
                 alt={`${card.value} of ${card.suit}`}
               />
             );
-          })*/}
+          })}
         </DisplayHand>
       </DisplayCardsDiv>
 
