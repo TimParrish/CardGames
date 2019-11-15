@@ -6,7 +6,7 @@ function Homepage() {
   return (
     <>
       <HomepageStyle>
-        <h1>Please slect a game!</h1>
+        <h1>Please select a game!</h1>
         <img src={Casino} alt={"Neon casino marquee sign at night"} />
         <img
           src={Tank}
