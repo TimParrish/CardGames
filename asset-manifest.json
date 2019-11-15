@@ -1,16 +1,18 @@
 {
   "files": {
-    "main.css": "/card-games/static/css/main.f4f0cec9.chunk.css",
-    "main.js": "/card-games/static/js/main.68f1ab9d.chunk.js",
-    "main.js.map": "/card-games/static/js/main.68f1ab9d.chunk.js.map",
-    "runtime~main.js": "/card-games/static/js/runtime~main.c253352b.js",
-    "runtime~main.js.map": "/card-games/static/js/runtime~main.c253352b.js.map",
-    "static/js/2.c5f5412c.chunk.js": "/card-games/static/js/2.c5f5412c.chunk.js",
-    "static/js/2.c5f5412c.chunk.js.map": "/card-games/static/js/2.c5f5412c.chunk.js.map",
+    "main.css": "/card-games/static/css/main.04a82d69.chunk.css",
+    "main.js": "/card-games/static/js/main.c80a4dde.chunk.js",
+    "main.js.map": "/card-games/static/js/main.c80a4dde.chunk.js.map",
+    "runtime~main.js": "/card-games/static/js/runtime~main.d4ecfe74.js",
+    "runtime~main.js.map": "/card-games/static/js/runtime~main.d4ecfe74.js.map",
+    "static/js/2.425768f2.chunk.js": "/card-games/static/js/2.425768f2.chunk.js",
+    "static/js/2.425768f2.chunk.js.map": "/card-games/static/js/2.425768f2.chunk.js.map",
     "index.html": "/card-games/index.html",
-    "precache-manifest.add8a7e27ea450932550eee9f5b254db.js": "/card-games/precache-manifest.add8a7e27ea450932550eee9f5b254db.js",
+    "precache-manifest.c1039aeb3eea65e4534c714a006902cd.js": "/card-games/precache-manifest.c1039aeb3eea65e4534c714a006902cd.js",
     "service-worker.js": "/card-games/service-worker.js",
-    "static/css/main.f4f0cec9.chunk.css.map": "/card-games/static/css/main.f4f0cec9.chunk.css.map",
-    "static/media/julius-drost-C8wlYF8ubBo-unsplash.jpg": "/card-games/static/media/julius-drost-C8wlYF8ubBo-unsplash.b3dc39d0.jpg"
+    "static/css/main.04a82d69.chunk.css.map": "/card-games/static/css/main.04a82d69.chunk.css.map",
+    "static/media/julius-drost-C8wlYF8ubBo-unsplash.jpg": "/card-games/static/media/julius-drost-C8wlYF8ubBo-unsplash.b3dc39d0.jpg",
+    "static/media/justin-campbell-FacLsqkeX4w-unsplash.jpg": "/card-games/static/media/justin-campbell-FacLsqkeX4w-unsplash.880e55d8.jpg",
+    "static/media/michal-soukup-k2OGxffv3VY-unsplash.jpg": "/card-games/static/media/michal-soukup-k2OGxffv3VY-unsplash.a5599685.jpg"
   }
 }
