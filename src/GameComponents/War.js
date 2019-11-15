@@ -15,14 +15,14 @@ let player_card = []; //card the player drew
 let dealer_pile = []; //cards the dealer has
 let dealer_card = []; //card the dealer drew
 
-let winner = "no one.";
+//let winner = "";
 
 function War() {
   const [deckId, setDeckId] = useState("");
   const [shuffled, setShuffled] = useState("");
   const [, updateRender] = useState();
   const hiddenCardImage = CardsOnFire;
-  var curDeck;
+  let curDeck;
   void shuffled;
 
   // Create a new deck of cards and store the deck id for future API calls
@@ -44,7 +44,7 @@ function War() {
           .then(result => {
             result.data.success && console.log("Beginning split");
 
-            var i;
+            let i;
             for (i = 0; i < 52; i += 2) {
               let card1 = result.data.cards[i];
               //create a card object to push onto the player hand
@@ -70,8 +70,7 @@ function War() {
               player_pile.push(drawn_card1);
               dealer_pile.push(drawn_card2);
             }
-            //console.log(player_pile);
-            //console.log(dealer_pile);
+            updateRender(n => !n);
           })
           .catch(error => console.log(error));
       })
@@ -90,10 +89,14 @@ function War() {
       updateRender(n => !n);
       computeFlipWinner();
     }
+    else{
+      gameWon();
+      updateRender(n => !n);
+    }
   }
 
   async function drawTie() {
-    var i;
+    let i;
     for (
       i = 0;
       i < 3;
@@ -116,9 +119,9 @@ function War() {
   //computes who won the flip
   async function computeFlipWinner() {
     //get player card value
-    var player_score = getCardValue(player_card[player_card.length - 1]);
+    let player_score = getCardValue(player_card[player_card.length - 1]);
     //get deal card value
-    var dealer_score = getCardValue(dealer_card[dealer_card.length - 1]);
+    let dealer_score = getCardValue(dealer_card[dealer_card.length - 1]);
 
     if (player_score === dealer_score) {
       //its a tie
@@ -161,7 +164,7 @@ function War() {
 
   //Adds the given card to the given pile
   function addCard(pile, card) {
-    var i;
+    let i;
     card.imageURL = card.faceUp;
     for (i = pile.length; i > 0; i--) {
       pile[i] = pile[i - 1];
@@ -172,11 +175,13 @@ function War() {
   //checks if either player has an empty deck
   function gameWon() {
     if (player_pile.length === 0) {
-      winner = "the dealer.\nBetter luck next time.";
+      console.log("im in");
+      //let winner = "the dealer has won.\nBetter luck next time.";
       return true;
     }
     if (dealer_pile.length === 0) {
-      winner = "the player.\nCongratulations! Please come again.";
+      console.log("im in2");
+      //let winner = "the player has won.\nCongratulations! Please come again.";
       return true;
     }
     return false;
@@ -186,6 +191,47 @@ function War() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  async function winP(){
+    dealer_card = [];
+    player_card = [];
+    if (!gameWon()) {
+//      console.log("\n");
+      player_card.push(player_pile.pop());
+      dealer_card.push(dealer_pile.pop());
+      updateRender(n => !n);
+    }
+    try {
+      await sleepDelay(1); 
+    let pc = player_card.pop();
+    let dc = dealer_card.pop();
+//    console.log("pc: " + pc + " dc: " + dc);
+    addCard(player_pile, pc);
+    addCard(player_pile, dc);
+    } catch (error) {
+    //  console.log("I fixed it")
+    }
+    
+  }
+  async function winD(){
+    dealer_card = [];
+    player_card = [];
+    if (!gameWon()) {
+//      console.log("\n");
+      player_card.push(player_pile.pop());
+      dealer_card.push(dealer_pile.pop());
+      updateRender(n => !n);
+    }
+    try{
+      await sleepDelay(1);
+      let pc = player_card.pop();
+      let dc = dealer_card.pop();
+//      console.log("pc: " + pc + " dc: " + dc);
+      addCard(dealer_pile, pc);
+      addCard(dealer_pile, dc);
+    } catch (error) {
+    //  console.log("I fixed it")
+    }
+  }
   return (
     <>
       <DisplayCardsDiv>
@@ -217,11 +263,13 @@ function War() {
         <GameControlsButtonDiv>
           <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
           <GameControlButton onClick={draw}>Hit</GameControlButton>
+          <GameControlButton onClick={winP}>Force Player Win</GameControlButton>
+          <GameControlButton onClick={winD}>Force Dealer Win</GameControlButton>
         </GameControlsButtonDiv>
         <h1>Welcome to WAR!</h1>
         <p>Player has: {player_pile.length} cards.</p>
         <p>Dealer has: {dealer_pile.length} cards.</p>
-        {/* <p>The winner of this game is: {winner}</p> */}
+        <p>{/*winner*/}</p>
       </GameControlsDiv>
     </>
   );
