@@ -5,7 +5,9 @@ import {
   DisplayCardsDiv,
   GameControlsDiv,
   GameControlsButtonDiv,
-  GameControlButton
+  GameControlButton,
+  FlexBox,
+  DisplayGameStats
 } from "styles";
 import { CardsOnFire } from "images";
 
@@ -88,8 +90,7 @@ function War() {
       //    dealer_card.imageURL = hiddenCardImage;
       updateRender(n => !n);
       computeFlipWinner();
-    }
-    else{
+    } else {
       gameWon();
       updateRender(n => !n);
     }
@@ -191,86 +192,94 @@ function War() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async function winP(){
+  async function winP() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
-//      console.log("\n");
+      //      console.log("\n");
       player_card.push(player_pile.pop());
       dealer_card.push(dealer_pile.pop());
       updateRender(n => !n);
     }
     try {
-      await sleepDelay(1); 
-    let pc = player_card.pop();
-    let dc = dealer_card.pop();
-//    console.log("pc: " + pc + " dc: " + dc);
-    addCard(player_pile, pc);
-    addCard(player_pile, dc);
+      await sleepDelay(1);
+      let pc = player_card.pop();
+      let dc = dealer_card.pop();
+      //    console.log("pc: " + pc + " dc: " + dc);
+      addCard(player_pile, pc);
+      addCard(player_pile, dc);
     } catch (error) {
-    //  console.log("I fixed it")
+      //  console.log("I fixed it")
     }
-    
   }
-  async function winD(){
+  async function winD() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
-//      console.log("\n");
+      //      console.log("\n");
       player_card.push(player_pile.pop());
       dealer_card.push(dealer_pile.pop());
       updateRender(n => !n);
     }
-    try{
+    try {
       await sleepDelay(1);
       let pc = player_card.pop();
       let dc = dealer_card.pop();
-//      console.log("pc: " + pc + " dc: " + dc);
+      //      console.log("pc: " + pc + " dc: " + dc);
       addCard(dealer_pile, pc);
       addCard(dealer_pile, dc);
     } catch (error) {
-    //  console.log("I fixed it")
+      //  console.log("I fixed it")
     }
   }
   return (
     <>
-      <DisplayCardsDiv>
-        <DisplayHand type="player">
-          <h2>Player Card</h2>
-          {player_card.map(card => {
-            return (
-              <img
-                src={`${card.imageURL}`}
-                alt={`${card.value} of ${card.suit}`}
-              />
-            );
-          })}
-        </DisplayHand>
-        <DisplayHand>
-          <h2>Dealer Card</h2>
-          {dealer_card.map(card => {
-            return (
-              <img
-                src={`${card.imageURL}`}
-                alt={`${card.value} of ${card.suit}`}
-              />
-            );
-          })}
-        </DisplayHand>
-      </DisplayCardsDiv>
+      <FlexBox>
+        <GameControlsDiv>
+          <GameControlsButtonDiv>
+            <GameControlButton onClick={startNewGame}>
+              New Game
+            </GameControlButton>
+            <GameControlButton onClick={draw}>Hit</GameControlButton>
+            <GameControlButton onClick={winP}>
+              Force Player Win
+            </GameControlButton>
+            <GameControlButton onClick={winD}>
+              Force Dealer Win
+            </GameControlButton>
+          </GameControlsButtonDiv>
+        </GameControlsDiv>
+        <DisplayCardsDiv>
+          <DisplayHand type="player">
+            <h2>Player Card</h2>
+            {player_card.map(card => {
+              return (
+                <img
+                  src={`${card.imageURL}`}
+                  alt={`${card.value} of ${card.suit}`}
+                />
+              );
+            })}
+          </DisplayHand>
+          <DisplayHand>
+            <h2>Dealer Card</h2>
+            {dealer_card.map(card => {
+              return (
+                <img
+                  src={`${card.imageURL}`}
+                  alt={`${card.value} of ${card.suit}`}
+                />
+              );
+            })}
+          </DisplayHand>
+        </DisplayCardsDiv>
 
-      <GameControlsDiv>
-        <GameControlsButtonDiv>
-          <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
-          <GameControlButton onClick={draw}>Hit</GameControlButton>
-          <GameControlButton onClick={winP}>Force Player Win</GameControlButton>
-          <GameControlButton onClick={winD}>Force Dealer Win</GameControlButton>
-        </GameControlsButtonDiv>
-        <h1>Welcome to WAR!</h1>
-        <p>Player has: {player_pile.length} cards.</p>
-        <p>Dealer has: {dealer_pile.length} cards.</p>
-        <p>{/*winner*/}</p>
-      </GameControlsDiv>
+        <DisplayGameStats>
+          <p>Player cards: {player_pile.length}</p>
+          <p>Dealer cards: {dealer_pile.length}</p>
+          <p>{/*winner*/}</p>
+        </DisplayGameStats>
+      </FlexBox>
     </>
   );
 }

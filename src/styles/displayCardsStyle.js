@@ -23,18 +23,3 @@ export const DisplayHand = styled.div`
     float: left;
   }
 `;
-
-export const DisplayGameStats = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  margin: auto;
-  p {
-    padding-top: 5px;
-    text-align: center;
-  }
-  background-color: white;
-  border-radius: 10px;
-  height: 200px;
-  width: 9vw;
-`;

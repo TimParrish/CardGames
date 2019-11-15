@@ -9,7 +9,7 @@ export const GameControlsDiv = styled.div`
   }
   background-color: white;
   border-radius: 10px;
-  height: 200px;
+  height: 180px;
 `;
 
 export const GameControlsButtonDiv = styled.div`
@@ -29,4 +29,19 @@ export const GameControlButton = styled.button`
     background-color: orange;
     box-shadow: inset 0px 0px 30px #ccc;
   }
+`;
+
+export const DisplayGameStats = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  margin: auto;
+  p {
+    padding-top: 5px;
+    text-align: center;
+  }
+  background-color: white;
+  border-radius: 10px;
+  height: 180px;
+  width: 9vw;
 `;
