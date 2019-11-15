@@ -16,7 +16,6 @@ let dealer_hand = [];
 
 function Blackjack() {
   const [deckId, setDeckId] = useState(0);
-  const [cardsRemaining, setCardsRemaining] = useState(0);
   const [playerHandValue, setPlayerHandValue] = useState(0);
   const [dealerHandValue, setDealerHandValue] = useState(0);
   const [playerAceCount, setPlayerAceCount] = useState(0);
@@ -36,7 +35,6 @@ function Blackjack() {
         result.data.success && console.log("The result was a success!!");
 
         setDeckId(result.data.deck_id);
-        setCardsRemaining(result.data.remaining);
         newRound();
       })
       .catch(error => console.log(error));
@@ -59,7 +57,6 @@ function Blackjack() {
       .then(result => {
         result.data.success && console.log(`We successfully drew cards!!`);
 
-        setCardsRemaining(result.data.remaining);
         try {
           let card = result.data.cards[0];
           //create a card object to push onto the player or dealer hand
@@ -160,7 +157,6 @@ function Blackjack() {
       .then(result => {
         result.data.success && console.log(`We successfully drew cards!!`);
 
-        setCardsRemaining(result.data.remaining);
         try {
           let card = result.data.cards[0];
           //create a card object to push onto the player or dealer hand

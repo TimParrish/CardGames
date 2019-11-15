@@ -17,10 +17,7 @@ let player_card = []; //card the player drew
 let dealer_pile = []; //cards the dealer has
 let dealer_card = []; //card the dealer drew
 
-//let winner = "";
-
 function War() {
-  const [deckId, setDeckId] = useState("");
   const [shuffled, setShuffled] = useState("");
   const [, updateRender] = useState();
   const hiddenCardImage = CardsOnFire;
@@ -34,7 +31,6 @@ function War() {
       .then(result => {
         result.data.success && console.log("Deck obtained");
 
-        setDeckId(result.data.deck_id);
         setShuffled(result.data.shuffled);
         curDeck = result.data.deck_id;
         //clear the cards in the player and dealer hands
@@ -84,12 +80,14 @@ function War() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
-      console.log("\n");
-      player_card.push(player_pile.pop());
-      dealer_card.push(dealer_pile.pop());
-      //    dealer_card.imageURL = hiddenCardImage;
-      updateRender(n => !n);
-      computeFlipWinner();
+      let cp = player_pile.pop();
+      let cd = dealer_pile.pop();
+      if (!(cp === "undefined" && cd === "undefined")) {
+        player_card.push(cp);
+        dealer_card.push(cd);
+        updateRender(n => !n);
+        computeFlipWinner();
+      }
     } else {
       gameWon();
       updateRender(n => !n);
@@ -111,7 +109,6 @@ function War() {
     }
     player_card.push(player_pile.pop());
     dealer_card.push(dealer_pile.pop());
-    //    dealer_card.imageURL = hiddenCardImage;
     await sleepDelay(1);
     updateRender(n => !n);
     computeFlipWinner();
@@ -175,14 +172,11 @@ function War() {
 
   //checks if either player has an empty deck
   function gameWon() {
+    console.log("P: " + player_pile.length + " D: " + dealer_pile.length);
     if (player_pile.length === 0) {
-      console.log("im in");
-      //let winner = "the dealer has won.\nBetter luck next time.";
       return true;
     }
     if (dealer_pile.length === 0) {
-      console.log("im in2");
-      //let winner = "the player has won.\nCongratulations! Please come again.";
       return true;
     }
     return false;
@@ -196,7 +190,6 @@ function War() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
-      //      console.log("\n");
       player_card.push(player_pile.pop());
       dealer_card.push(dealer_pile.pop());
       updateRender(n => !n);
@@ -205,18 +198,14 @@ function War() {
       await sleepDelay(1);
       let pc = player_card.pop();
       let dc = dealer_card.pop();
-      //    console.log("pc: " + pc + " dc: " + dc);
       addCard(player_pile, pc);
       addCard(player_pile, dc);
-    } catch (error) {
-      //  console.log("I fixed it")
-    }
+    } catch (error) {}
   }
   async function winD() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
-      //      console.log("\n");
       player_card.push(player_pile.pop());
       dealer_card.push(dealer_pile.pop());
       updateRender(n => !n);
@@ -225,12 +214,9 @@ function War() {
       await sleepDelay(1);
       let pc = player_card.pop();
       let dc = dealer_card.pop();
-      //      console.log("pc: " + pc + " dc: " + dc);
       addCard(dealer_pile, pc);
       addCard(dealer_pile, dc);
-    } catch (error) {
-      //  console.log("I fixed it")
-    }
+    } catch (error) {}
   }
   return (
     <>
