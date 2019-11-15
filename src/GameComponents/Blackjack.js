@@ -4,6 +4,8 @@ import { CardsOnFire } from "images";
 import {
   DisplayHand,
   DisplayCardsDiv,
+  DisplayGameStats,
+  FlexBox,
   GameControlsDiv,
   GameControlsButtonDiv,
   GameControlButton
@@ -207,47 +209,50 @@ function Blackjack() {
   }
   return (
     <>
-      <DisplayCardsDiv>
-        <DisplayHand type="player">
-          <h2>Player Cards</h2>
-          {player_hand.map(card => {
-            return (
-              <img
-                src={`${card.imageURL}`}
-                alt={`${card.value} of ${card.suit}`}
-              />
-            );
-          })}
-        </DisplayHand>
-        <DisplayHand>
-          <h2>Dealer Cards</h2>
-          {dealer_hand.map(card => {
-            return (
-              <img
-                src={`${card.imageURL}`}
-                alt={`${card.value} of ${card.suit}`}
-              />
-            );
-          })}
-        </DisplayHand>
-      </DisplayCardsDiv>
-
-      <GameControlsDiv>
-        <GameControlsButtonDiv>
-          <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
-          <GameControlButton onClick={playerStay}>Stay</GameControlButton>
-          <GameControlButton onClick={drawCard}>Hit</GameControlButton>
-          <GameControlButton onClick={drawDealer}>
-            Dealer Draw
-          </GameControlButton>
-        </GameControlsButtonDiv>
-        {/* <p>The deck ID is: {deckId}</p> */}
-        {/* <p>Total cards remaining in the deck: {cardsRemaining}</p> */}
-        <p>Player hand value: {playerHandValue}</p>
-        <p>Dealer hand value: {dealerHandValue}</p>
-        <p>Player num wins: {playerNumberWins}</p>
-        <p>Dealer num wins: {dealerNumberWins}</p>
-      </GameControlsDiv>
+      <FlexBox>
+        <GameControlsDiv>
+          <GameControlsButtonDiv>
+            <GameControlButton onClick={startNewGame}>
+              New Game
+            </GameControlButton>
+            <GameControlButton onClick={playerStay}>Stay</GameControlButton>
+            <GameControlButton onClick={drawCard}>Hit</GameControlButton>
+            <GameControlButton onClick={drawDealer}>
+              Dealer Draw
+            </GameControlButton>
+          </GameControlsButtonDiv>
+        </GameControlsDiv>
+        <DisplayCardsDiv>
+          <DisplayHand type="player">
+            <h2>Player Cards</h2>
+            {player_hand.map(card => {
+              return (
+                <img
+                  src={`${card.imageURL}`}
+                  alt={`${card.value} of ${card.suit}`}
+                />
+              );
+            })}
+          </DisplayHand>
+          <DisplayHand>
+            <h2>Dealer Cards</h2>
+            {dealer_hand.map(card => {
+              return (
+                <img
+                  src={`${card.imageURL}`}
+                  alt={`${card.value} of ${card.suit}`}
+                />
+              );
+            })}
+          </DisplayHand>
+        </DisplayCardsDiv>
+        <DisplayGameStats>
+          <p>Hand value: {playerHandValue}</p>
+          {/* <p>Dealer hand value: {dealerHandValue}</p> */}
+          <p>Player wins: {playerNumberWins}</p>
+          <p>Dealer wins: {dealerNumberWins}</p>
+        </DisplayGameStats>
+      </FlexBox>
     </>
   );
 }
