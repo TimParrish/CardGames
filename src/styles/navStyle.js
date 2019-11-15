@@ -13,6 +13,8 @@ export const StyledLink = styled(NavLink)`
   transition: all 1s linear;
   box-shadow: inset 0px 0px 30px #888;
   border-right: ${({ type }) => (type === "last" ? "0" : "1px solid #ccc")};
+  ${({ type }) => type === "first" && "border-radius: 10px 0 0 10px"};
+  ${({ type }) => type === "last" && "border-radius: 0 10px 10px 0"};
   &:hover {
     background-color: #eee;
     color: #333;
