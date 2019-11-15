@@ -241,16 +241,12 @@ function Blackjack() {
             Dealer Draw
           </GameControlButton>
         </GameControlsButtonDiv>
-        <p>The deck ID is: {deckId}</p>
-        <p>Total cards remaining in the deck: {cardsRemaining}</p>
+        {/* <p>The deck ID is: {deckId}</p> */}
+        {/* <p>Total cards remaining in the deck: {cardsRemaining}</p> */}
         <p>Player hand value: {playerHandValue}</p>
         <p>Dealer hand value: {dealerHandValue}</p>
         <p>Player num wins: {playerNumberWins}</p>
         <p>Dealer num wins: {dealerNumberWins}</p>
-
-        {/* <p>{data}</p> */}
-        {/* <Image src={CardsOnFire} rounded />
-      <p>Photo by Julius Drost on Unsplash</p> */}
       </GameControlsDiv>
     </>
   );

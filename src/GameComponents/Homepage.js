@@ -1,23 +1,20 @@
 import React from "react";
-import styled from "styled-components";
 import { HomepageStyle } from "styles";
-import {Casino, Tank} from "images";
+import { Casino, Tank } from "images";
 
 function Homepage() {
-
-  return (<>
-            <HomepageStyle>
-              <h1>Homepage</h1>
-              <img
-                src={Casino}
-              />
-              <img
-                src={Tank}
-              />
-            </HomepageStyle>
-            
-            </>);
-
+  return (
+    <>
+      <HomepageStyle>
+        <h1>Please slect a game!</h1>
+        <img src={Casino} alt={"Neon casino marquee sign at night"} />
+        <img
+          src={Tank}
+          alt={"Tank on a dirt road with the sky in the background"}
+        />
+      </HomepageStyle>
+    </>
+  );
 }
 
 export default Homepage;
