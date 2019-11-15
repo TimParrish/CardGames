@@ -6,3 +6,4 @@ export {
   GameControlsButtonDiv,
   GameControlButton
 } from "./gameControlsStyle";
+export {HomepageStyle} from "./HomepageStyle";

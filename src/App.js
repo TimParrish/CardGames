@@ -19,7 +19,6 @@ function App() {
       </Switch>
       <StyledFooter>
         <p>Check out the source code on github!</p>
-        <p>Image from Julius Drost on Unsplash.com</p>
       </StyledFooter>
     </BrowserRouter>
   );
