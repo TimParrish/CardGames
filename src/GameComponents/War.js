@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { 
+  useState,
+  useEffect
+ } from "react";
 import axios from "axios";
 import {
   DisplayHand,
@@ -23,6 +26,11 @@ function War() {
   const hiddenCardImage = CardsOnFire;
   let curDeck;
   void shuffled;
+
+  //calls startNewGame() when th page loads
+  useEffect(() => {
+    startNewGame();
+  }, []);
 
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
