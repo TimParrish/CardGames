@@ -34,6 +34,10 @@ function War() {
 
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
+    player_pile = [];
+    dealer_pile = [];
+    player_card = [];
+    dealer_card = [];
     axios
       .get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
       .then(result => {
@@ -84,22 +88,24 @@ function War() {
   }
 
   function draw() {
-    //reset the pile for each player
-    dealer_card = [];
-    player_card = [];
-    if (!gameWon()) {
-      let cp = player_pile.pop();
-      let cd = dealer_pile.pop();
-      if (!(cp === "undefined" && cd === "undefined")) {
-        player_card.push(cp);
-        dealer_card.push(cd);
+    try{
+      //reset the pile for each player
+      dealer_card = [];
+      player_card = [];
+      if (!gameWon()) {
+        let cp = player_pile.pop();
+        let cd = dealer_pile.pop();
+        if (!(cp === "undefined" && cd === "undefined")) {
+          player_card.push(cp);
+          dealer_card.push(cd);
+          updateRender(n => !n);
+          computeFlipWinner();
+        }
+      } else {
+        gameWon();
         updateRender(n => !n);
-        computeFlipWinner();
       }
-    } else {
-      gameWon();
-      updateRender(n => !n);
-    }
+    }catch(e){}
   }
 
   async function drawTie() {
@@ -154,28 +160,32 @@ function War() {
 
   //Gets te value of a given card
   function getCardValue(card) {
-    switch (card.value) {
-      case "ACE": //highest value card in the game
-        return 14;
-      case "KING":
-        return 13;
-      case "QUEEN":
-        return 12;
-      case "JACK":
-        return 11;
-      default:
-        return card.value;
-    }
+    try{
+      switch (card.value) {
+        case "ACE": //highest value card in the game
+          return 14;
+        case "KING":
+          return 13;
+        case "QUEEN":
+          return 12;
+        case "JACK":
+          return 11;
+        default:
+          return card.value;
+      }
+    }catch(e){}
   }
 
   //Adds the given card to the given pile
   function addCard(pile, card) {
     let i;
-    card.imageURL = card.faceUp;
-    for (i = pile.length; i > 0; i--) {
-      pile[i] = pile[i - 1];
-    }
-    pile[0] = card;
+    try{
+      card.imageURL = card.faceUp;
+      for (i = pile.length; i > 0; i--) {
+        pile[i] = pile[i - 1];
+      }
+      pile[0] = card;
+    }catch(e){}
   }
 
   //checks if either player has an empty deck
@@ -194,7 +204,7 @@ function War() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async function winP() {
+/*  async function winP() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
@@ -225,28 +235,22 @@ function War() {
       addCard(dealer_pile, pc);
       addCard(dealer_pile, dc);
     } catch (error) {}
-  }
+  }*/
   return (
     <>
       <FlexBox>
         <GameControlsDiv>
           <GameControlsButtonDiv>
-            <GameControlButton onClick={startNewGame}>
-              New Game
-            </GameControlButton>
             <GameControlButton onClick={draw}>Hit</GameControlButton>
-            <GameControlButton onClick={winP}>
-              Force Player Win
-            </GameControlButton>
-            <GameControlButton onClick={winD}>
-              Force Dealer Win
-            </GameControlButton>
+            <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
+           {/* <GameControlButton onClick={winP}>Force Player Win</GameControlButton>
+            <GameControlButton onClick={winD}>Force Dealer Win</GameControlButton>*/}
           </GameControlsButtonDiv>
         </GameControlsDiv>
         <DisplayCardsDiv>
           <DisplayHand type="player">
             <h2>Player Card</h2>
-            {player_card.map(card => {
+            {player_card && player_card.map(card => {
               return (
                 <img
                   src={`${card.imageURL}`}
@@ -257,7 +261,7 @@ function War() {
           </DisplayHand>
           <DisplayHand>
             <h2>Dealer Card</h2>
-            {dealer_card.map(card => {
+            {dealer_card && dealer_card.map(card => {
               return (
                 <img
                   src={`${card.imageURL}`}
