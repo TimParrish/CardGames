@@ -3,7 +3,7 @@ import { Blackjack, Homepage, NavBar, War } from "./GameComponents";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { StyledFooter } from "styles";
 import "./styles/background.css";
-import "./styles/rootStyle.css";
+// import "./styles/rootStyle.css";
 
 document.title = "React Card Games";
 
