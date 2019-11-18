@@ -1,7 +1,4 @@
-import React, { 
-  useState,
-  useEffect
-} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { CardsOnFire } from "images";
 import {
@@ -128,7 +125,7 @@ function Blackjack() {
       } else {
         console.log("the player busted!!!");
         setDealerNumberWins(dealerNumberWins + 1);
-        await sleepDelay(3000);
+        await sleepDelay(2000);
         newRound();
       }
     } else if (dealerHandValue > 21) {
@@ -139,22 +136,22 @@ function Blackjack() {
       } else {
         console.log("the dealer busted!!");
         setPlayerNumberWins(playerNumberWins + 1);
-        await sleepDelay(3000);
+        await sleepDelay(2000);
         newRound();
       }
     } else if (playerHandValue === dealerHandValue) {
       console.log("push");
-      await sleepDelay(3000);
+      await sleepDelay(2000);
       newRound();
     } else if (playerHandValue > dealerHandValue) {
       setPlayerNumberWins(playerNumberWins + 1);
       console.log("Player wins!!");
-      await sleepDelay(3000);
+      await sleepDelay(2000);
       newRound();
     } else {
       setDealerNumberWins(dealerNumberWins + 1);
       console.log("Dealer wins...");
-      await sleepDelay(3000);
+      await sleepDelay(2000);
       newRound();
     }
   }
@@ -198,10 +195,10 @@ function Blackjack() {
             dealer_hand[0].imageURL = hiddenCardImage;
             setDealerCardHidden(true);
           }
-          updateRender(n => !n);
           if (dealerHandValue > 21) {
             computeHand();
           }
+          updateRender(n => !n);
         } catch (err) {
           console.log("failed to parse JSON for desired values");
         }
@@ -216,13 +213,13 @@ function Blackjack() {
       <FlexBox>
         <GameControlsDiv>
           <GameControlsButtonDiv>
-            <GameControlButton onClick={startNewGame}>
-              New Game
-            </GameControlButton>
-            <GameControlButton onClick={playerStay}>Stay</GameControlButton>
             <GameControlButton onClick={drawCard}>Hit</GameControlButton>
             <GameControlButton onClick={drawDealer}>
               Dealer Draw
+            </GameControlButton>
+            <GameControlButton onClick={playerStay}>Stay</GameControlButton>
+            <GameControlButton onClick={startNewGame}>
+              New Game
             </GameControlButton>
           </GameControlsButtonDiv>
         </GameControlsDiv>
