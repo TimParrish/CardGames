@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { 
+  useState,
+  useEffect
+} from "react";
 import axios from "axios";
 import { CardsOnFire } from "images";
 import {
@@ -26,6 +29,11 @@ function Blackjack() {
   const [dealerCardHidden, setDealerCardHidden] = useState(true);
   const [, updateRender] = useState("");
   const hiddenCardImage = CardsOnFire;
+
+  //calls startNewGame() when th page loads
+  useEffect(() => {
+    startNewGame();
+  }, []);
 
   // Create a new deck of cards and store the deck id for future API calls
   function startNewGame() {
