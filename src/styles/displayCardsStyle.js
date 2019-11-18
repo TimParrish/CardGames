@@ -21,5 +21,6 @@ export const DisplayHand = styled.div`
     height: 175px;
     width: 123px;
     float: left;
+    border-radius: 10px;
   }
 `;
