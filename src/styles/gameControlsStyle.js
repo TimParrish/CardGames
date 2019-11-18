@@ -15,6 +15,8 @@ export const GameControlsDiv = styled.div`
 export const GameControlsButtonDiv = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 9vw;
 `;
 
@@ -34,6 +36,8 @@ export const GameControlButton = styled.button`
 export const DisplayGameStats = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 15px;
   margin: auto;
   p {
