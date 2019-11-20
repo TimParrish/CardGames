@@ -8,7 +8,6 @@ function Homepage() {
     <>
       <HomepageStyle>
         <h1>Please select a game!</h1>
-        {/* <a href="https://timparrish.github.io/card-games/blackjack"> */}
         <NavLink to="/card-games/blackjack">
           <img src={Casino} alt={"Neon casino marquee sign at night"} />
         </NavLink>

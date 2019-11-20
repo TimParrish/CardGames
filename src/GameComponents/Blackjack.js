@@ -24,8 +24,17 @@ function Blackjack() {
   const [dealerNumberWins, setDealerNumberWins] = useState(0);
   const [dealerFirstCardURL, setDealerFirstCardURL] = useState("");
   const [dealerCardHidden, setDealerCardHidden] = useState(true);
+  const [drawInitialCards, setDrawInitialCards] = useState(true);
   const [, updateRender] = useState("");
   const hiddenCardImage = CardsOnFire;
+
+  //draw two cards each on new round
+  useEffect(() => {
+    drawCard();
+    drawDealer();
+    drawCard();
+    drawDealer();
+  }, [drawInitialCards]);
 
   //calls startNewGame() when th page loads
   useEffect(() => {
@@ -54,6 +63,7 @@ function Blackjack() {
     setPlayerHandValue(0);
     setDealerCardHidden("");
     updateRender(n => !n);
+    setDrawInitialCards(!drawInitialCards);
   }
 
   function drawCard() {
