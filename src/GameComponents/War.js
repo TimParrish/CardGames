@@ -1,7 +1,4 @@
-import React, { 
-  useState,
-  useEffect
- } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   DisplayHand,
@@ -88,7 +85,7 @@ function War() {
   }
 
   function draw() {
-    try{
+    try {
       //reset the pile for each player
       dealer_card = [];
       player_card = [];
@@ -105,7 +102,7 @@ function War() {
         gameWon();
         updateRender(n => !n);
       }
-    }catch(e){}
+    } catch (e) {}
   }
 
   async function drawTie() {
@@ -160,7 +157,7 @@ function War() {
 
   //Gets te value of a given card
   function getCardValue(card) {
-    try{
+    try {
       switch (card.value) {
         case "ACE": //highest value card in the game
           return 14;
@@ -173,19 +170,19 @@ function War() {
         default:
           return card.value;
       }
-    }catch(e){}
+    } catch (e) {}
   }
 
   //Adds the given card to the given pile
   function addCard(pile, card) {
     let i;
-    try{
+    try {
       card.imageURL = card.faceUp;
       for (i = pile.length; i > 0; i--) {
         pile[i] = pile[i - 1];
       }
       pile[0] = card;
-    }catch(e){}
+    } catch (e) {}
   }
 
   //checks if either player has an empty deck
@@ -204,7 +201,7 @@ function War() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-/*  async function winP() {
+  /*  async function winP() {
     dealer_card = [];
     player_card = [];
     if (!gameWon()) {
@@ -242,33 +239,39 @@ function War() {
         <GameControlsDiv>
           <GameControlsButtonDiv>
             <GameControlButton onClick={draw}>Hit</GameControlButton>
-            <GameControlButton onClick={startNewGame}>New Game</GameControlButton>
-           {/* <GameControlButton onClick={winP}>Force Player Win</GameControlButton>
+            <GameControlButton onClick={startNewGame}>
+              New Game
+            </GameControlButton>
+            {/* <GameControlButton onClick={winP}>Force Player Win</GameControlButton>
             <GameControlButton onClick={winD}>Force Dealer Win</GameControlButton>*/}
           </GameControlsButtonDiv>
         </GameControlsDiv>
         <DisplayCardsDiv>
           <DisplayHand type="player">
             <h2>Player Card</h2>
-            {player_card && player_card.map(card => {
-              return (
-                <img
-                  src={`${card.imageURL}`}
-                  alt={`${card.value} of ${card.suit}`}
-                />
-              );
-            })}
+            {player_card &&
+              player_card.map((card, index) => {
+                return (
+                  <img
+                    key={`player${index}`}
+                    src={`${card.imageURL}`}
+                    alt={`${card.value} of ${card.suit}`}
+                  />
+                );
+              })}
           </DisplayHand>
           <DisplayHand>
             <h2>Dealer Card</h2>
-            {dealer_card && dealer_card.map(card => {
-              return (
-                <img
-                  src={`${card.imageURL}`}
-                  alt={`${card.value} of ${card.suit}`}
-                />
-              );
-            })}
+            {dealer_card &&
+              dealer_card.map((card, index) => {
+                return (
+                  <img
+                    key={`dealer${index}`}
+                    src={`${card.imageURL}`}
+                    alt={`${card.value} of ${card.suit}`}
+                  />
+                );
+              })}
           </DisplayHand>
         </DisplayCardsDiv>
 
