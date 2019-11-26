@@ -22,6 +22,8 @@ export const GameControlsButtonDiv = styled.div`
 `;
 
 export const GameControlButton = styled.button`
+
+
   width: 125px;
   background-color: lightgreen;
   padding: 10px;
