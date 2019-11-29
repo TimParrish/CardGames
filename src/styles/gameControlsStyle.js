@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { deviceSize } from "utilities";
+// import { deviceSize } from "utilities";
 
 export const GameControlsDiv = styled.div`
   padding: 15px;

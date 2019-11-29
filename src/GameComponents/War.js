@@ -27,6 +27,7 @@ function War() {
   //calls startNewGame() when th page loads
   useEffect(() => {
     startNewGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Create a new deck of cards and store the deck id for future API calls
