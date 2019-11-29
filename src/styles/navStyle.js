@@ -1,7 +1,17 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { deviceSize } from "utilities";
 
 export const StyledLink = styled(NavLink)`
+  @media ${deviceSize.laptop}{
+
+  }
+  @media ${deviceSize.tablet}{
+
+  }
+  @media ${deviceSize.mobile}{
+
+  }
   font-size: 12px;
   color: white;
   font-family: helvetica;
@@ -23,10 +33,22 @@ export const StyledLink = styled(NavLink)`
 `;
 
 export const NavBarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 25px auto 25px auto;
-  width: 700px;
-  height: 38px;
-  padding: 0px;
+  @media ${deviceSize.laptop}{
+    margin: 25px auto 25px auto;
+    width: 700px;
+    height: 38px;
+  }
+  @media ${deviceSize.tablet}{
+    margin: 20px auto 20px auto;
+    width: 560px;
+    height: 30px;
+  }
+  @media ${deviceSize.mobile}{
+    margin: 15px auto 15px auto;
+    width: 420px;
+    height: 23px;
+  }
+    display: flex;
+    justify-content: center;
+    padding: 0px;
 `;
